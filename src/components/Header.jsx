@@ -1,24 +1,46 @@
 import { styled } from "styled-components";
+import { FaUser, FaShoppingCart } from "react-icons/fa";
+import { RiCustomerService2Fill } from "react-icons/ri";
 
 export const Header = () => {
   return (
     <StyledHeader>
       <NavigationTop>
-        <div>Logo</div>
+        <LogoImageBox>
+          <StyledAnchor href="/">
+            <img src="/images/withus_logo.png" alt="withus_logo" />
+          </StyledAnchor>
+        </LogoImageBox>
         <TopRightNavigation>
-          <li>회원가입</li>
-          <li>로그인</li>
-          <li>장바구니</li>
-          <li>내정보</li>
-          <li>고객센터</li>
+          <li>
+            <StyledAnchor href="#">회원가입</StyledAnchor>
+          </li>
+          <li>
+            <StyledAnchor href="#">로그인</StyledAnchor>
+          </li>
+          <li>
+            <StyledAnchor href="#">
+              <FaShoppingCart />
+            </StyledAnchor>
+          </li>
+          <li>
+            <StyledAnchor href="#">
+              <FaUser />
+            </StyledAnchor>
+          </li>
+          <li>
+            <StyledAnchor href="#">
+              <RiCustomerService2Fill />
+            </StyledAnchor>
+          </li>
         </TopRightNavigation>
       </NavigationTop>
       <NavigationMain>
-        <a href="#">청첩장</a>
-        <a href="#">모바일</a>
-        <a href="#">웨딩영상</a>
-        <a href="#">감사장</a>
-        <a href="#">초대장</a>
+        <StyledAnchor href="#">청첩장</StyledAnchor>
+        <StyledAnchor href="#">모바일</StyledAnchor>
+        <StyledAnchor href="#">웨딩영상</StyledAnchor>
+        <StyledAnchor href="#">감사장</StyledAnchor>
+        <StyledAnchor href="#">초대장</StyledAnchor>
       </NavigationMain>
     </StyledHeader>
   );
@@ -34,6 +56,15 @@ const NavigationTop = styled.nav`
   align-items: center;
   padding: 1rem;
 `;
+const LogoImageBox = styled.div`
+  width: 80px;
+  height: 50px;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
 const TopRightNavigation = styled.ul`
   display: flex;
 
@@ -45,5 +76,14 @@ const NavigationMain = styled.nav`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding-block: 0.5rem;
+  padding-block: 1rem;
+  background-color: #b9e0ff;
+  a {
+    color: #f7f7f7;
+  }
+`;
+
+const StyledAnchor = styled.a`
+  text-decoration: none;
+  color: #666;
 `;
