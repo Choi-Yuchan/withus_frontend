@@ -5,7 +5,11 @@ module.exports = {
     node: true,
   },
   plugins: ["react"],
-  extends: ["eslint:recommended", "plugin:react/jsx-runtime"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+  ],
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
