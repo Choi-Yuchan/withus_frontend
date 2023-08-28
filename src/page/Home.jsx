@@ -77,6 +77,7 @@ const ProductDesc = styled.div`
   }
 
   h4 {
+    font-size: 1.25rem;
     font-weight: 600;
     margin-top: 0.5rem;
     margin-bottom: 4px;
