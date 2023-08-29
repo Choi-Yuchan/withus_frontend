@@ -17,17 +17,19 @@ export default function Home() {
           <ProductList>
             {productlists.map((product, index) => (
               <li key={index}>
-                <ProductImage></ProductImage>
-                <ProductDesc>
-                  <h4>Product{product}</h4>
-                  <span>
-                    <ProductPriceLabel>
-                      <p>100,000원</p>
-                      <p>40%</p>
-                    </ProductPriceLabel>
-                    <span>300부</span>
-                  </span>
-                </ProductDesc>
+                <a href={`/product/${index}`}>
+                  <ProductImage></ProductImage>
+                  <ProductDesc>
+                    <h4>Product{product}</h4>
+                    <span>
+                      <ProductPriceLabel>
+                        <p>100,000원</p>
+                        <p>40%</p>
+                      </ProductPriceLabel>
+                      <span>300부</span>
+                    </span>
+                  </ProductDesc>
+                </a>
               </li>
             ))}
           </ProductList>

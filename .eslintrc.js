@@ -20,6 +20,7 @@ module.exports = {
   rules: {
     "react/jsx-uses-vars": "error",
     "react/jsx-uses-react": "error",
+    "react/prop-types": "off",
   },
   ignorePatterns: ["build", "dist", "public"],
 };
