@@ -45,7 +45,7 @@ export const Carousel = () => {
     },
   };
 
-  console.log({ mainAnimation, mainIndex, mainItems });
+  // console.log({ mainAnimation, mainIndex, mainItems });
   const slideNext = () => {
     if (!mainAnimation && mainIndex < mainItems.length - 1) {
       // setMainAnimation(true);
@@ -119,15 +119,12 @@ const Contain = styled.div`
 const ItemsContain = styled.div`
   width: 100%;
   height: 100%;
-  padding: 0 10px;
 `;
 
 const ItemsWrap = styled.div`
   width: 100%;
   height: 500px;
-  border-radius: 20px;
   overflow: hidden;
-  margin: 0 20px;
 
   img {
     width: 100%;
@@ -148,8 +145,8 @@ const NextBtn = styled(PrevBtn)`
 
 const DotBtn = styled.span`
   display: block;
-  width: 20px;
-  height: 20px;
+  width: 1rem;
+  height: 1rem;
   border-radius: 50%;
   background-color: #fefefe;
   &:not(last-of-type) {

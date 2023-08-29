@@ -45,13 +45,13 @@ const ProductImage = styled.div`
   background-color: #f7f7f7;
 `;
 const ProductSection = styled.section`
-  padding-block: 1rem;
+  padding-block: 3rem;
   padding-inline: 10vw;
 
   h2 {
     font-weight: 600;
     font-size: 2rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 `;
 const ProductList = styled.ul`
