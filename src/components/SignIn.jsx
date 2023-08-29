@@ -26,12 +26,12 @@ export const SignIn = () => {
         </div>
         <div>
           <p>
-          <a href="#">회원가입</a>
+          <a href="/signup">회원가입</a>
           </p>
         </div>
       </StyledInner>
       <StyledSubmit>
-        <button>로그인</button>
+        <button href="/">로그인</button>
       </StyledSubmit>
     </StyledForm>
   );

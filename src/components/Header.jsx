@@ -13,10 +13,10 @@ export const Header = () => {
         </LogoImageBox>
         <TopRightNavigation>
           <li>
-            <StyledAnchor href="#">회원가입</StyledAnchor>
+            <StyledAnchor href="/signup">회원가입</StyledAnchor>
           </li>
           <li>
-            <StyledAnchor href="#">로그인</StyledAnchor>
+            <StyledAnchor href="/login">로그인</StyledAnchor>
           </li>
           <li>
             <StyledAnchor href="#">
