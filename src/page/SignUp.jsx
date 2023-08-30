@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { styled } from "styled-components";
+import axios from "axios";
 
 const SignUp = () => {
+
+  useEffect(() => {
+    fetchData();
+  },[]);
+  const fetchData = async () => {
+    try{
+      const response = await axios.get(
+        ""
+      );
+      console.log(response.data);
+    }catch (error) {
+      console.log(error);
+    }
+  };
+  
   const [id, setId] = useState("");
   const [pwd, setPwd] = useState("");
   const [chkPwd, setChkPwd] = useState("");
@@ -191,7 +207,7 @@ const StyledInner = styled.div`
     color: gray;
   }
   div > button {
-    margin: 1rem;
+    margin: 0.5rem 1rem;
   }
 `;
 
