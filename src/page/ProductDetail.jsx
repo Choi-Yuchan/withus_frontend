@@ -3,10 +3,12 @@ import { styled } from "styled-components";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import Button from "../components/Button";
+import ToTopBtn from "../components/ToTopBtn";
 // import axios from "axios";
 // import { useEffect } from "react";
 
 export default function ProductDetail() {
+  const detailImages = [1, 2, 3, 4, 5];
   // useEffect(() => {
   //   fetchData();
   // }, []);
@@ -20,6 +22,7 @@ export default function ProductDetail() {
   //     console.error(error);
   //   }
   // };
+
   return (
     <div className="main-font-color">
       <Header />
@@ -27,6 +30,11 @@ export default function ProductDetail() {
         <ProductInfoSection>
           <div>
             <ProductImage />
+            <ProductDetailImageContainer>
+              {detailImages.map((image, index) => (
+                <ProductDetailImage key={index}>{image}</ProductDetailImage>
+              ))}
+            </ProductDetailImageContainer>
           </div>
           <ProductInfo>
             <div>Product</div>
@@ -54,6 +62,7 @@ export default function ProductDetail() {
               <Button title={"구매하기"} />
               <Button title={"장바구니"} type={"cart"} />
             </ButtonBox>
+            <div className="sub-font-color">상품코드:A492H2E</div>
           </ProductInfo>
         </ProductInfoSection>
         <ProductDetailSection>
@@ -64,8 +73,15 @@ export default function ProductDetail() {
             corrupti minus aperiam quia repellat accusamus dolores. Nostrum
             voluptatum illum blanditiis dolore.
           </p>
-          <ProductDetailImage />
+          <DetailImage />
+          <p>
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sapiente
+            quam magni natus possimus sint dolor aspernatur! Impedit animi
+            corrupti minus aperiam quia repellat accusamus dolores. Nostrum
+            voluptatum illum blanditiis dolore.
+          </p>
         </ProductDetailSection>
+        <ToTopBtn />
       </DetailMain>
       <Footer />
     </div>
@@ -77,6 +93,11 @@ const ProductDetailSection = styled.section`
   align-items: center;
   justify-content: space-around;
   padding-block: 2rem;
+
+  div:first-of-type {
+    display: flex;
+    flex-direction: column;
+  }
 
   h2 {
     font-weight: 600;
@@ -125,10 +146,11 @@ const ProductInfoSection = styled.section`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 2rem;
+  padding-bottom: 5rem;
   border-bottom: 2px solid #ccc;
 `;
 const DetailMain = styled.main`
+  position: relative;
   display: flex;
   flex-direction: column;
   padding-top: 60px;
@@ -138,6 +160,21 @@ const DetailMain = styled.main`
     width: 100%;
   }
 `;
+const ProductDetailImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+  margin-right: 5rem;
+  gap: 0.5rem;
+`;
+const ProductDetailImage = styled.div`
+  width: calc((30vw / 5) - 0.5rem);
+  aspect-ratio: 1/1;
+  border-radius: 12px;
+  background-color: #f7f7f7;
+  gap: 0.5rem;
+`;
 const ProductImage = styled.div`
   width: 30vw;
   aspect-ratio: 1/1;
@@ -145,9 +182,10 @@ const ProductImage = styled.div`
   background-color: #f7f7f7;
   margin-right: 5rem;
 `;
-const ProductDetailImage = styled.div`
+const DetailImage = styled.div`
   width: 100%;
   aspect-ratio: 2/1;
   border-radius: 12px;
   background-color: #f7f7f7;
+  margin-block: 1rem;
 `;
