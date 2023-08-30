@@ -3,6 +3,7 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { styled } from "styled-components";
 import axios from "axios";
+import Button from "../components/Button";
 
 const SignUp = () => {
 
@@ -141,15 +142,11 @@ const SignUp = () => {
           </div>
         </StyledInner>
         <StyledSubmit>
-          <button
-            type="submit"
-            href="/login"
-            onClick={() => {
-              signup();
-            }}
-          >
-            회원가입
-          </button>
+          <Button
+          title={"회원가입"}
+          onClick={() => {
+            signup();
+          }} />
         </StyledSubmit>
       </StyledForm>
       <Footer />
