@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src" // 루트 폴더 url
+  },
+  // import시 해당 루트를 포함할껀지에 대한 여부
+  // include에 src 포함안할시 import 'src/components/Avatar'
+  // include에 src 포함시 import 'components/Avatar'
+  "include": ["src"]
+}
