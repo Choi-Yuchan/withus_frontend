@@ -4,24 +4,9 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import Button from "../components/Button";
 import ToTopBtn from "../components/ToTopBtn";
-// import axios from "axios";
-// import { useEffect } from "react";
 
 export default function ProductDetail() {
   const detailImages = [1, 2, 3, 4, 5];
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       "https://jsonplaceholder.typicode.com/todos/1"
-  //     );
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
 
   return (
     <div className="main-font-color">
