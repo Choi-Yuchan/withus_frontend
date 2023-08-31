@@ -43,7 +43,7 @@ export const Header = () => {
             <StyledAnchor href="/login">로그인</StyledAnchor>
           </li>
           <li>
-            <StyledAnchor href="#">
+            <StyledAnchor href="/cart">
               <FaShoppingCart />
             </StyledAnchor>
           </li>

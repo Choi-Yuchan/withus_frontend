@@ -60,7 +60,9 @@ export default function ProductDetail() {
             </div>
             <ButtonBox>
               <Button title={"구매하기"} />
-              <Button title={"장바구니"} type={"cart"} />
+              <a href="/cart">
+                <Button title={"장바구니"} type={"cart"} />
+              </a>
             </ButtonBox>
             <div className="sub-font-color">상품코드:A492H2E</div>
           </ProductInfo>
