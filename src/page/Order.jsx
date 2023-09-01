@@ -2,6 +2,7 @@ import React from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { styled } from "styled-components";
+import Button from "components/Button";
 
 const Order = () => {
   return (
@@ -84,8 +85,8 @@ const Order = () => {
                   <input type="text" placeholder="Your Address" />
                   <input type="text" placeholder="Your Address" />
                   <input type="text" placeholder="Your Address" />
-                </div>
                 <button>주소 검색</button>
+                </div>
               </div>
             </div>
           </div>
@@ -104,12 +105,12 @@ const Order = () => {
               <input type="text" />
             </div>
             <div>
-              <label>예식장소</label>
+              <label>예식 장소</label>
               <input type="text" />
             </div>
           </div>
         </StyledFormMarry>
-        <button href="/">결제하기</button>
+        <Button title={"결제하기"} />
       </StyledForm>
       <Footer />
     </div>
@@ -120,9 +121,8 @@ const StyledForm = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   padding: 2rem 0;
-  margin: 2rem;
   h2 {
     padding: 2rem;
     font-size: 2rem;
@@ -140,7 +140,7 @@ const StyledForm = styled.form`
 `;
 
 const StyledInner = styled.div`
-
+  margin: 2rem;
   padding: 2rem;
   display: flex;
   flex-direction: row;
@@ -161,8 +161,12 @@ const StyledInner = styled.div`
     width:3rem;
     padding: 1rem;
   }
+  div> div:nth-of-type(3) > button{
+    
+  }
   div> div > input {
     padding: 0.5rem;
+    margin: 0.5rem 0;
   }
     div > div > button {
       margin: 0.5rem 1rem;
@@ -174,6 +178,8 @@ const StyledTable = styled.div`
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  padding: 2rem;
+  margin: 2rem;
   table{
     width:50rem;
   }
@@ -185,6 +191,7 @@ const StyledTable = styled.div`
     padding: 1rem 2rem;
     border-bottom:1px solid gray;
     text-align: center;
+    vertical-align: middle;
   }
 
   span {
@@ -198,6 +205,7 @@ const StyledTable = styled.div`
 
 const StyledFormMarry = styled.div`
   padding: 2rem;
+  margin: 2rem;
   display: flex;
   flex-direction: row;
   div {
@@ -208,7 +216,7 @@ const StyledFormMarry = styled.div`
   }
   div > label {
     text-align: right;
-    width:5rem;
+    width:3rem;
     padding: 1rem;
   }
   div > input {
