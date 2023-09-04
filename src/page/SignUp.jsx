@@ -4,6 +4,7 @@ import { Footer } from "../components/Footer";
 import { styled } from "styled-components";
 import axios from "axios";
 import Button from "../components/Button";
+import  Post  from "components/Post";
 
 const SignUp = () => {
 
@@ -26,7 +27,7 @@ const SignUp = () => {
   const [chkPwd, setChkPwd] = useState("");
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  //const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("");
   const [birthday, setBirthday] = useState("");
 
   const [popup, setPopup] = useState(false);
@@ -37,7 +38,7 @@ const SignUp = () => {
       pwd === "" ||
       chkPwd === "" ||
       name === "" ||
-      //address === "" ||
+      address === "" ||
       phoneNumber === "" ||
       birthday === ""
     ) {
@@ -119,16 +120,15 @@ const SignUp = () => {
             <label>주소</label>
             <div>
               <input type="text" placeholder="Your Address" />
-              <input type="text" placeholder="Your Address" />
-              <input type="text" placeholder="Your Address" />
             </div>
-            <button
-              onClick={() => {
-                setPopup(!popup);
-              }}
-            >
-            주소 검색
-            </button>
+            <Button onClick={()=>{
+              setPopup(!popup)
+            }} title={'주소검색'}
+             />
+             {
+              popup &&
+              <Post address={address} setAddress={setAddress} />
+             }
           </div>
           <div>
             <label>생년월일</label>
@@ -160,12 +160,12 @@ const StyledForm = styled.form`
   flex-direction: column;
   justify-content: space-between;
   padding: 2rem 0;
-  margin: 2rem;
   h2 {
     padding: 2rem;
     font-size: 2rem;
     font-weight: bold;
-  }
+    margin: 3rem 0 0;
+  }  
 `;
 
 const StyledInner = styled.div`
@@ -176,6 +176,7 @@ const StyledInner = styled.div`
   div {
     display: flex;
     align-items: center;
+    margin: 2rem 0;
   }
   div > label {
     width: 8rem;
@@ -190,12 +191,6 @@ const StyledInner = styled.div`
     div:nth-of-type(3) {
       margin: 0;
       padding: 0;
-    }
-  }
-  div:nth-of-type(6) {
-    align-items: flex-start;
-    input {
-      margin: 0.2rem 0;
     }
   }
   div > p {
