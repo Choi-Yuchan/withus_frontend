@@ -1,115 +1,185 @@
-//import React from 'react'
-
-import { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { styled } from "styled-components";
 
 const LogIn = () => {
-  const [id, setId] = useState("");
-  const [pw, setPw] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-
-  const login = (id, pw) => {
-    if (id === "" || pw === "") {
+  const onSubmit = (data) => {
+    console.log(data);
+    if (data.userId === "" || data.password === "") {
       alert("아이디 혹은 비밀번호를 입력해주세요!");
-      return false;
+      return;
     }
+
+    // 여기에서 로그인 로직을 처리할 수 있습니다.
+    console.log("로그인 시도:", data.userId, data.password);
   };
+
   return (
-    <div>
+    <main>
       <Header />
-      <StyledForm>
-        <h2>로그인</h2>
-        <StyledInner>
-          <div>
-            <label>아이디</label>
-            <input
-              type="text"
-              minLength="5"
-              maxLength="15"
-              placeholder="Your ID"
-              onChange={(e)=>{
-                setId(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <label>비밀번호</label>
-            <input
-              type="password"
-              minLength="8"
-              maxLength="15"
-              placeholder="Your Password"
-              onChange={(e)=>{
-                setPw(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <p>
-              <a href="/signup">회원가입</a>
-            </p>
-          </div>
-        </StyledInner>
-        <StyledSubmit>
-          <button onClick={()=>{
-            login(id,pw)
-          }}>로그인</button>
-        </StyledSubmit>
-      </StyledForm>
+      <LogInContainer className="main-font-color">
+        <LogoImageBox>
+          <a href="/">
+            <img src="/images/withus_logo.png" alt="withus_logo" />
+            <h2>WithUs</h2>
+          </a>
+        </LogoImageBox>
+        <LogInForm onSubmit={handleSubmit(onSubmit)}>
+          <FormInner>
+            <FormGroup>
+              <label>아이디</label>
+              <input
+                {...register("userId", {
+                  minLength: 5,
+                  maxLength: 15,
+                  required: true,
+                })}
+                type="text"
+                placeholder="Your ID"
+              />
+              {errors.userId && (
+                <ErrorText>올바른 아이디를 입력해주세요.</ErrorText>
+              )}
+            </FormGroup>
+            <FormGroup>
+              <label>비밀번호</label>
+              <input
+                {...register("password", {
+                  minLength: 8,
+                  maxLength: 15,
+                  required: true,
+                })}
+                type="password"
+                placeholder="Your Password"
+              />
+              {errors.password && (
+                <ErrorText>올바른 비밀번호를 입력해주세요.</ErrorText>
+              )}
+            </FormGroup>
+            <SignUpBox>
+              <p>
+                <a href="/signup">회원가입</a>
+              </p>
+            </SignUpBox>
+          </FormInner>
+          <ButtonBox>
+            <SubmitButton type="submit">로그인</SubmitButton>
+          </ButtonBox>
+        </LogInForm>
+      </LogInContainer>
       <Footer />
-    </div>
+    </main>
   );
 };
-const StyledForm = styled.form`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2rem 0;
-  margin: 2rem;
-  h2 {
-    padding: 2rem;
-    font-size: 2rem;
-    font-weight: bold;
+
+const LogoImageBox = styled.div`
+  width: 80px;
+
+  img {
+    width: 100%;
+    height: 100%;
   }
-`;
-const StyledInner = styled.div`
-  padding: 1.5rem;
-  margin: 2rem;
-  border: 1px solid gray;
-  border-radius: 20px;
-  div {
+  a {
     display: flex;
     align-items: center;
-    margin: 1rem 0;
-  }
-  div > label {
-    width: 8rem;
-    padding: 1rem;
-  }
-  div > input {
-    padding: 0.5rem;
-  }
-  div:nth-of-type(3){
-    align-items: flex-start;
-    justify-content: right;
-    a{
-      color: gray;
-      text-decoration: none;
-      font-size: 0.8rem;
-    }
+    justify-content: center;
+    font-size: 1.25rem;
+    font-family: cursive;
+    text-decoration: none;
+    color: #666;
   }
 `;
-const StyledSubmit = styled.div`
-  margin: 2rem;
-  button {
-    padding: 1rem;
-    font-size: 1rem;
+const LogInContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 152px);
+  h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #777;
   }
 `;
 
+const LogInForm = styled.form`
+  background-color: #ffffff;
+  border: 1px solid #dddddd;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+`;
 
+const FormInner = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  label {
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  input {
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 4px;
+  }
+
+  p {
+    margin-bottom: 1rem;
+  }
+`;
+
+const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+`;
+
+const ErrorText = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-top: 4px;
+`;
+
+const SignUpBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+
+  a {
+    color: #777;
+    text-decoration: underline;
+  }
+`;
+const ButtonBox = styled.div`
+  display: flex;
+  width: 100%;
+`;
+
+const SubmitButton = styled.button`
+  width: 100%;
+  background-color: #8d9eff;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #6c4ab6;
+  }
+`;
 
 export default LogIn;
