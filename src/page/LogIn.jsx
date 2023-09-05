@@ -9,7 +9,6 @@ const LogIn = () => {
   const [id, setId] = useState("");
   const [pw, setPw] = useState("");
 
-
   const login = (id, pw) => {
     if (id === "" || pw === "") {
       alert("아이디 혹은 비밀번호를 입력해주세요!");
@@ -29,7 +28,7 @@ const LogIn = () => {
               minLength="5"
               maxLength="15"
               placeholder="Your ID"
-              onChange={(e)=>{
+              onChange={(e) => {
                 setId(e.target.value);
               }}
             />
@@ -41,7 +40,7 @@ const LogIn = () => {
               minLength="8"
               maxLength="15"
               placeholder="Your Password"
-              onChange={(e)=>{
+              onChange={(e) => {
                 setPw(e.target.value);
               }}
             />
@@ -53,9 +52,13 @@ const LogIn = () => {
           </div>
         </StyledInner>
         <StyledSubmit>
-          <button onClick={()=>{
-            login(id,pw)
-          }}>로그인</button>
+          <button
+            onClick={() => {
+              login(id, pw);
+            }}
+          >
+            로그인
+          </button>
         </StyledSubmit>
       </StyledForm>
       <Footer />
@@ -92,10 +95,10 @@ const StyledInner = styled.div`
   div > input {
     padding: 0.5rem;
   }
-  div:nth-of-type(3){
+  div:nth-of-type(3) {
     align-items: flex-start;
     justify-content: right;
-    a{
+    a {
       color: gray;
       text-decoration: none;
       font-size: 0.8rem;
@@ -109,7 +112,5 @@ const StyledSubmit = styled.div`
     font-size: 1rem;
   }
 `;
-
-
 
 export default LogIn;
