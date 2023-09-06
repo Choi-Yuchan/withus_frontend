@@ -53,17 +53,12 @@ const SignUp = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 유효성 검사 로직을 추가하세요
-    // 예: 비밀번호와 비밀번호 확인이 일치하는지 확인
-
     try {
       // 회원가입 API 호출
       const response = await axios.post("/api/signup", formData);
       console.log(response.data);
-      // 회원가입 성공 후 리다이렉트 또는 다른 작업 수행
     } catch (error) {
       console.error(error);
-      // 회원가입 실패 처리
     }
   };
 
@@ -84,7 +79,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <InputLabel>아이디</InputLabel>
+          <InputLabel htmlFor="username">아이디</InputLabel>
             <Input
               type="text"
               name="id"
@@ -94,7 +89,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <InputLabel>비밀번호</InputLabel>
+          <InputLabel htmlFor="password">비밀번호</InputLabel>
             <Input
               type="password"
               name="password"
@@ -104,7 +99,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <InputLabel>비밀번호 확인</InputLabel>
+          <InputLabel htmlFor="confirmPassword">비밀번호 확인</InputLabel>
             <Input
               type="password"
               name="confirmPassword"
@@ -114,7 +109,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <InputLabel>휴대폰 번호</InputLabel>
+            <InputLabel htmlFor="phoneNumber">휴대폰 번호</InputLabel>
             <Input
               type="tel"
               name="phoneNumber"
@@ -124,7 +119,7 @@ const SignUp = () => {
             />
           </div>
           <div>
-            <InputLabel>주소</InputLabel>
+            <InputLabel htmlFor="address">주소</InputLabel>
             <Input
               type="text"
               name="address"
@@ -163,7 +158,7 @@ const SignUp = () => {
               required
             />
           </div>
-          <Button type="submit" title={"가입완료"} />
+          <Button type="submit" title={"가입완료"} href={"/"} />
         </SignUpForm>
       </SignUpContainer>
       <Footer />
