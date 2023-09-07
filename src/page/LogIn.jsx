@@ -31,11 +31,8 @@ const LogIn = () => {
 
       const { message, data } = response.data;
       if (message == "SUCCESS") {
-        navigate("/", {
-          state: {
-            role: data[0]?.authority,
-          },
-        });
+        navigate("/");
+        localStorage.setItem("role", data[0]?.authority);
       }
     } catch (error) {
       console.error(error);
