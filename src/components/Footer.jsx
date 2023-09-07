@@ -24,7 +24,7 @@ const StyledFooter = styled.footer`
   align-items: center;
   justify-content: space-around;
   padding-block: 2rem;
-  background-color: #ccc;
+  background-color: #e3f3ff;
 
   h3 {
     font-size: 1.5rem;
@@ -36,7 +36,7 @@ const CustomerCenter = styled.div`
   h4 {
     font-size: 2rem;
     font-weight: 600;
-    color: #fefefe;
+    color: #8d9eff;
     margin-block: 0.5rem;
   }
 `;
