@@ -3,8 +3,12 @@ import { styled } from "styled-components";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import Carousel from "../components/Carousel";
+import { useLocation } from "react-router-dom";
 
 export default function Home() {
+  const location = useLocation();
+  const role = location.state.role;
+  console.log(role, " here is a home");
   const productlists = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (

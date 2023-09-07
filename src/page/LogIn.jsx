@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { styled } from "styled-components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LogIn = () => {
   const {
@@ -10,16 +12,34 @@ const LogIn = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data);
-    if (data.userId === "" || data.password === "") {
+  const onSubmit = async ({ userId, password }) => {
+    if (userId === "" || password === "") {
       alert("아이디 혹은 비밀번호를 입력해주세요!");
       return;
     }
 
-    // 여기에서 로그인 로직을 처리할 수 있습니다.
-    console.log("로그인 시도:", data.userId, data.password);
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/login`,
+        {
+          username: userId,
+          password,
+        }
+      );
+
+      const { message, data } = response.data;
+      if (message == "SUCCESS") {
+        navigate("/", {
+          state: {
+            role: data[0]?.authority,
+          },
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -53,8 +73,8 @@ const LogIn = () => {
               <label>비밀번호</label>
               <input
                 {...register("password", {
-                  minLength: 8,
-                  maxLength: 15,
+                  // minLength: 8,
+                  // maxLength: 15,
                   required: true,
                 })}
                 type="password"
