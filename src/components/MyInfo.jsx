@@ -34,32 +34,35 @@ export const MyInfo = () => {
   const handleCloseClick = () => {
     setPopup(false);
   };
+
   const handleComplete = (data) => {
     let fullAddress = data.address;
-
     let extraAddress = "";
 
-    if (data.addressType === "R") {
+    if(data.addressType === "R") {
       if (data.bname !== "") {
         extraAddress += data.bname;
       }
-
-      if (data.buildingName !== "") {
+      if(data.buildingName !== "") {
         extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+        extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
-
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+      fullAddress += extraAddress !== "" ? `(${extraAddress})` : "";
+    }
+    const updatedUserInfo = {
+      ...userInfo,
+      address: fullAddress,
     }
 
+    setUserInfo(updatedUserInfo);
     console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     console.log(data.zonecode); // 우편번호
     setUserInfo({
       ...userInfo,
       address: fullAddress,
     });
-  };
-
+    setPopup(false);
+  }
   return (
     <MyPageContainer>
       <h2>My Info</h2>
@@ -174,14 +177,16 @@ const UserInfo = styled.div`
 const UserInfoItem = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
-
+  box-sizing:border-box;
+  span {
+    padding: 0.2rem;
+  }
   label {
     font-weight: bold;
     margin-right: 1rem;
   }
   input {
-    padding: 0.2rem;
+    text-align:right;
   }
 `;
 
