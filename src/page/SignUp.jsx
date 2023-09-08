@@ -110,6 +110,10 @@ const SignUp = () => {
     });
   };
 
+  const handleCloseClick = () => {
+    setPopup(false);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -214,19 +218,22 @@ const SignUp = () => {
 
               <PopupContainer>
                 {popup && (
-                  <DaumPostcode
-                    onComplete={handleComplete}
-                    autoClose={true}
-                    animation={true}
-                    style={{
-                      position: "absolute",
-                      width: "400px",
-                      height: "100%",
-                      border: "1px solid rgba(100,100,100,0.5)",
-                      paddingBottom: "0",
-                      zIndex: 100,
-                    }}
-                  />
+                  <div>
+                    <CloseButton onClick={handleCloseClick}>X</CloseButton>
+                    <DaumPostcode
+                      onComplete={handleComplete}
+                      autoClose={true}
+                      animation={true}
+                      style={{
+                        position: "absolute",
+                        width: "400px",
+                        height: "100%",
+                        border: "1px solid rgba(100,100,100,0.5)",
+                        paddingBottom: "0",
+                        zIndex: 100,
+                      }}
+                    />
+                  </div>
                 )}
               </PopupContainer>
             </div>
@@ -281,7 +288,7 @@ const SignUpForm = styled.form`
     align-items: center;
     text-align: left;
   }
-  >div:last-of-type {
+  > div:last-of-type {
     border: none;
     margin-bottom: 4rem;
   }
@@ -300,7 +307,7 @@ const Input = styled.input`
 
 const PopupContainer = styled.div`
   position: fixed;
-  right: 0rem;
+  right: 5rem;
   bottom: 5rem;
   width: 400px;
   height: 500px;
@@ -311,6 +318,19 @@ const Error = styled.span`
   font-size: 0.8rem;
   margin-top: 0.5rem;
   text-align: right;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: -2rem;
+  right: 1rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  z-index: 1000;
 `;
 
 export default SignUp;
