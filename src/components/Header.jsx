@@ -5,6 +5,22 @@ import { useEffect, useState } from "react";
 
 export const Header = () => {
   const [scrollY, setScrollY] = useState(0);
+  const [role, setRole] = useState(localStorage.getItem("role"));
+
+  // localStorage에서 role 값을 가져오고, 변경될 때마다 업데이트
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === "role") {
+        setRole(e.newValue);
+      }
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
 
   const handleScroll = () => {
     setScrollY(window.scrollY);
@@ -36,12 +52,20 @@ export const Header = () => {
           </NavigationMain>
         </div>
         <TopRightNavigation>
-          <li>
-            <StyledAnchor href="/signup">회원가입</StyledAnchor>
-          </li>
-          <li>
-            <StyledAnchor href="/login">로그인</StyledAnchor>
-          </li>
+          {role == "ROLE_USER" ? (
+            <li>
+              <StyledAnchor href="/logout">로그아웃</StyledAnchor>
+            </li>
+          ) : (
+            <>
+              <li>
+                <StyledAnchor href="/signup">회원가입</StyledAnchor>
+              </li>
+              <li>
+                <StyledAnchor href="/login">로그인</StyledAnchor>
+              </li>
+            </>
+          )}
           <li>
             <StyledAnchor href="/cart">
               <FaShoppingCart />
