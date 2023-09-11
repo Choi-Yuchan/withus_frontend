@@ -14,53 +14,53 @@ const Order = () => {
           <h3>주문정보</h3>
           <table>
             <div>
-            <thead>
-              <tr>
-                <th>주문번호</th>
-                <th>상품</th>
-                <th>상품명</th>
-                <th>수량</th>
-                <th>결제가</th>
-              </tr>
-            </thead>
-            <tfoot>
-              <tr>
-                <td>3</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-                <td>1</td>
-              </tr>
-            </tfoot>
-            <tbody>
-              <tr>
-                <td>1</td>
-                <td>
-                  <span></span>
-                </td>
-                <td>상품명1</td>
-                <td>1</td>
-                <td>10,000</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <span></span>
-                </td>
-                <td>상품명1</td>
-                <td>1</td>
-                <td>10,000</td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>
-                  <span></span>
-                </td>
-                <td>상품명1</td>
-                <td>1</td>
-                <td>10,000</td>
-              </tr>
-            </tbody>
+              <thead>
+                <tr>
+                  <th>주문번호</th>
+                  <th>상품</th>
+                  <th>상품명</th>
+                  <th>수량</th>
+                  <th>결제가</th>
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <td>3</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                  <td>1</td>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <span></span>
+                  </td>
+                  <td>상품명1</td>
+                  <td>1</td>
+                  <td>10,000</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <span></span>
+                  </td>
+                  <td>상품명1</td>
+                  <td>1</td>
+                  <td>10,000</td>
+                </tr>
+                <tr>
+                  <td>1</td>
+                  <td>
+                    <span></span>
+                  </td>
+                  <td>상품명1</td>
+                  <td>1</td>
+                  <td>10,000</td>
+                </tr>
+              </tbody>
             </div>
           </table>
         </StyledTable>
@@ -85,7 +85,7 @@ const Order = () => {
                   <input type="text" placeholder="Your Address" />
                   <input type="text" placeholder="Your Address" />
                   <input type="text" placeholder="Your Address" />
-                <button>주소 검색</button>
+                  <button>주소 검색</button>
                 </div>
               </div>
             </div>
@@ -134,8 +134,8 @@ const StyledForm = styled.form`
     padding: 1rem;
     font-size: 1.2rem;
     font-weight: bold;
-    text-align:right;
-    margin-right:2rem;
+    text-align: right;
+    margin-right: 2rem;
   }
 `;
 
@@ -145,7 +145,7 @@ const StyledInner = styled.div`
   display: flex;
   flex-direction: row;
   div {
-    width:50rem;
+    width: 50rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -154,24 +154,23 @@ const StyledInner = styled.div`
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    flex:0.5;
+    flex: 0.5;
   }
-  div> div > label {
+  div > div > label {
     text-align: right;
-    width:3rem;
+    width: 3rem;
     padding: 1rem;
   }
-  div> div:nth-of-type(3) > button{
-    
+  div > div:nth-of-type(3) > button {
   }
-  div> div > input {
+  div > div > input {
     padding: 0.5rem;
     margin: 0.5rem 0;
   }
-    div > div > button {
-      margin: 0.5rem 1rem;
-      align-items: flex-start;
-    }
+  div > div > button {
+    margin: 0.5rem 1rem;
+    align-items: flex-start;
+  }
 `;
 
 const StyledTable = styled.div`
@@ -180,16 +179,17 @@ const StyledTable = styled.div`
   align-items: flex-start;
   padding: 2rem;
   margin: 2rem;
-  table{
-    width:50rem;
+  table {
+    width: 50rem;
   }
-  table>div{
-    width:100%;
-    margin:0 auto;
+  table > div {
+    width: 100%;
+    margin: 0 auto;
   }
-  table>div th, table>div td{
+  table > div th,
+  table > div td {
     padding: 1rem 2rem;
-    border-bottom:1px solid gray;
+    border-bottom: 1px solid gray;
     text-align: center;
     vertical-align: middle;
   }
@@ -200,7 +200,6 @@ const StyledTable = styled.div`
     height: 3rem;
     background: gray;
   }
-
 `;
 
 const StyledFormMarry = styled.div`

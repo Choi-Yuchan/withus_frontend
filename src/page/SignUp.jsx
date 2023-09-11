@@ -1,219 +1,336 @@
-import React, { useEffect, useState } from "react";
-import { Header } from "../components/Header";
-import { Footer } from "../components/Footer";
-import { styled } from "styled-components";
+import React, { useState } from "react";
+import styled from "styled-components";
+import DaumPostcode from "react-daum-postcode";
 import axios from "axios";
-import Button from "../components/Button";
+import { Header } from "components/Header";
+import { Footer } from "components/Footer";
+import Button from "components/Button";
 
 const SignUp = () => {
-
-  useEffect(() => {
-    fetchData();
-  },[]);
-  const fetchData = async () => {
-    try{
-      const response = await axios.get(
-        ""
-      );
-      console.log(response.data);
-    }catch (error) {
-      console.log(error);
-    }
-  };
-  
-  const [id, setId] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [chkPwd, setChkPwd] = useState("");
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  //const [address, setAddress] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    id: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: "",
+    address: "",
+    birthday: "",
+  });
 
   const [popup, setPopup] = useState(false);
+  const passwordRegex =
+    /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&+=.]).{8,15}$/;
 
-  const signup = () => {
-    if (
-      id === "" ||
-      pwd === "" ||
-      chkPwd === "" ||
-      name === "" ||
-      //address === "" ||
-      phoneNumber === "" ||
-      birthday === ""
-    ) {
-      window.alert("내용을 모두 입력해주세요!");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let updatedValue = value;
+
+    const errors = { ...formErrors };
+
+    if (name === "name") {
+      if (!value) {
+        errors[name] = "이름을 입력하세요.";
+      } else {
+        delete errors[name];
+      }
+    }
+    if (name === "id") {
+      // 아이디 유효성 검사
+      if (!value) {
+        errors[name] = "아이디를 입력하세요.";
+      } else if (!/^[a-z0-9]+$/.test(value)) {
+        errors[name] = "아이디는 소문자와 숫자로만 허용됩니다.";
+      } else {
+        delete errors[name];
+      }
+    }
+    if (name === "password") {
+      // 비밀번호 유효성 검사
+      if (!passwordRegex.test(value)) {
+        errors[name] =
+          "비밀번호는 최소 8자 이상 15자미만, 대소문자, 숫자, 특수 문자를 포함해야 합니다.";
+      } else {
+        delete errors[name];
+      }
+    }
+    if (name === "confirmPassword") {
+      // 비밀번호 확인 유효성 검사
+      if (value !== formData.password) {
+        errors[name] = "비밀번호와 일치하지 않습니다.";
+      } else {
+        delete errors[name];
+      }
+    }
+    if (name === "phoneNumber") {
+      // 휴대폰 번호 입력 시 '-' 추가
+      updatedValue = updatedValue
+        .replace(/[^0-9]/g, "") // 숫자 이외의 문자 제거
+        .slice(0, 11) // 8글자까지만 유효
+        .replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"); // 번호 형식 변경
+    } else if (name === "birthday") {
+      // 생년월일 숫자로만 받고 '-' 추가
+      updatedValue = updatedValue
+        .replace(/[^0-9]/g, "") // 숫자 이외의 문자 제거
+        .slice(0, 8) // 8글자까지만 유효
+        .replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3"); // 년월일 형식 변경
+    }
+
+    setFormData({
+      ...formData,
+      [name]: updatedValue,
+    });
+    setFormErrors(errors);
+  };
+
+  const [formErrors, setFormErrors] = useState({});
+
+  const handleComplete = (data) => {
+    let fullAddress = data.address;
+
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    console.log(data.zonecode); // 우편번호
+    setFormData({
+      ...formData,
+      address: fullAddress,
+    });
+  };
+
+  const handleCloseClick = () => {
+    setPopup(false);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const errors = { ...formErrors };
+
+    if (Object.keys(errors).length > 0) {
       return;
     }
-    if (pwd !== chkPwd) {
-      window.alert("비밀번호와 재입력된 비빌번호가 다릅니다.");
-      return;
+
+    try {
+      // 회원가입 API 호출
+      const response = await axios.post("/api/signup", formData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
     <div>
       <Header />
-      <StyledForm>
+      <SignUpContainer>
         <h2>회원가입</h2>
-        <StyledInner>
+        <SignUpForm onSubmit={handleSubmit}>
           <div>
-            <label>이름</label>
-            <input
-              type="text"
-              minLength="2"
-              maxLength="5"
-              placeholder="Your Name"
-              onChange={(e) => {
-                setName(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <label>아이디</label>
-            <input
-              type="text"
-              minLength="5"
-              maxLength="15"
-              placeholder="Your ID"
-              onChange={(e) => {
-                setId(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <label>비밀번호</label>
-            <input
-              type="password"
-              minLength="8"
-              maxLength="15"
-              placeholder="Your Password"
-              onChange={(e) => {
-                setPwd(e.target.value);
-              }}
-            />
-            <p>영문 숫자 포함 8~15자</p>
-          </div>
-          <div>
-            <label>비밀번호 확인</label>
-            <input
-              type="password"
-              minLength="8"
-              maxLength="15"
-              placeholder="Your Password"
-              onChange={(e) => {
-                setChkPwd(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <label>휴대폰 번호</label>
-            <input
-              type="tel"
-              placeholder="Your Phone Number"
-              onChange={(e) => {
-                setPhoneNumber(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <label>주소</label>
             <div>
-              <input type="text" placeholder="Your Address" />
-              <input type="text" placeholder="Your Address" />
-              <input type="text" placeholder="Your Address" />
+              <InputLabel>이름</InputLabel>
+              <Input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
             </div>
-            <button
-              onClick={() => {
-                setPopup(!popup);
-              }}
-            >
-            주소 검색
-            </button>
+            {formErrors.name && <Error>{formErrors.name}</Error>}
           </div>
           <div>
-            <label>생년월일</label>
-            <input
-              type="text"
-              placeholder="Your Birthday"
-              onChange={(e) => {
-                setBirthday(e.target.value);
-              }}
-            />
+            <div>
+              <InputLabel htmlFor="username">아이디</InputLabel>
+              <Input
+                type="text"
+                name="id"
+                value={formData.id}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {formErrors.id && <Error>{formErrors.id}</Error>}
           </div>
-        </StyledInner>
-        <StyledSubmit>
-          <Button
-          title={"회원가입"}
-          onClick={() => {
-            signup();
-          }} />
-        </StyledSubmit>
-      </StyledForm>
+          <div>
+            <div>
+              <InputLabel htmlFor="password">비밀번호</InputLabel>
+              <Input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {formErrors.password && <Error>{formErrors.password}</Error>}
+          </div>
+          <div>
+            <div>
+              <InputLabel htmlFor="confirmPassword">비밀번호 확인</InputLabel>
+              <Input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {formErrors.confirmPassword && (
+              <Error>{formErrors.confirmPassword}</Error>
+            )}
+          </div>
+          <div>
+            <div>
+              <InputLabel htmlFor="phoneNumber">휴대폰 번호</InputLabel>
+              <Input
+                type="tel"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <div>
+            <div>
+              <InputLabel htmlFor="address">주소</InputLabel>
+              <Input
+                type="text"
+                name="address"
+                value={formData.address}
+                readOnly
+                onClick={() => setPopup(true)}
+                required
+              />
+
+              <PopupContainer>
+                {popup && (
+                  <div>
+                    <CloseButton onClick={handleCloseClick}>X</CloseButton>
+                    <DaumPostcode
+                      onComplete={handleComplete}
+                      autoClose={true}
+                      animation={true}
+                      style={{
+                        position: "absolute",
+                        width: "400px",
+                        height: "100%",
+                        border: "1px solid rgba(100,100,100,0.5)",
+                        paddingBottom: "0",
+                        zIndex: 100,
+                      }}
+                    />
+                  </div>
+                )}
+              </PopupContainer>
+            </div>
+          </div>
+          <div>
+            <div>
+              <InputLabel>생년월일</InputLabel>
+              <Input
+                type="text"
+                name="birthday"
+                value={formData.birthday}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          </div>
+          <Button title={"가입완료"} href={"/"} />
+        </SignUpForm>
+      </SignUpContainer>
       <Footer />
     </div>
   );
 };
 
-const StyledForm = styled.form`
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 2rem 0;
-  margin: 2rem;
+const SignUpContainer = styled.div`
+  text-align: center;
+  padding: 10rem;
   h2 {
-    padding: 2rem;
     font-size: 2rem;
     font-weight: bold;
+    margin-bottom: 5rem;
   }
 `;
 
-const StyledInner = styled.div`
-  padding: 1.5rem;
-  margin: 2rem;
-  border: 1px solid gray;
-  border-radius: 20px;
-  div {
-    display: flex;
-    align-items: center;
-  }
-  div > label {
-    width: 8rem;
-    padding: 1rem;
-  }
-  div > input {
-    padding: 0.5rem;
-  }
-  div > div {
+const SignUpForm = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  > div {
     display: flex;
     flex-direction: column;
-    div:nth-of-type(3) {
-      margin: 0;
-      padding: 0;
-    }
+    justfy-content: space-around;
+    margin: 1.5rem 0 0;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(150, 150, 150, 0.3);
   }
-  div:nth-of-type(6) {
-    align-items: flex-start;
-    input {
-      margin: 0.2rem 0;
-    }
+  > div > div {
+    display: flex;
+    flex-direction: row;
+    width: 30rem;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
   }
-  div > p {
-    font-size: 0.5rem;
-    margin: 1rem;
-    color: gray;
-  }
-  div > button {
-    margin: 0.5rem 1rem;
+  > div:last-of-type {
+    border: none;
+    margin-bottom: 4rem;
   }
 `;
 
-const StyledSubmit = styled.div`
-  margin: 2rem;
-  button {
-    padding: 1rem;
-    font-size: 1rem;
-  }
+const InputLabel = styled.label`
+  text-align: left;
+`;
+
+const Input = styled.input`
+  width: 20rem;
+  padding: 0.5rem 0.5rem;
+  margin-top: 5px;
+  box-sizing: border-box;
+`;
+
+const PopupContainer = styled.div`
+  position: fixed;
+  right: 5rem;
+  bottom: 5rem;
+  width: 400px;
+  height: 500px;
+`;
+
+const Error = styled.span`
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+  text-align: right;
+`;
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: -2rem;
+  right: 1rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  z-index: 1000;
 `;
 
 export default SignUp;
