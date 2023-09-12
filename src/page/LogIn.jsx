@@ -70,8 +70,8 @@ const LogIn = () => {
               <label>비밀번호</label>
               <input
                 {...register("password", {
-                  // minLength: 8,
-                  // maxLength: 15,
+                  minLength: 8,
+                  maxLength: 15,
                   required: true,
                 })}
                 type="password"

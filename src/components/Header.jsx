@@ -72,7 +72,7 @@ export const Header = () => {
             </StyledAnchor>
           </li>
           <li>
-            <StyledAnchor href="#">
+            <StyledAnchor href="/mypage">
               <FaUser />
             </StyledAnchor>
           </li>
