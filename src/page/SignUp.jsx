@@ -7,11 +7,13 @@ import { Footer } from "components/Footer";
 import Button from "components/Button";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const {
     register,
     handleSubmit,
+    reset,
     getValues,
     setValue,
     formState: { errors },
@@ -30,11 +32,13 @@ const SignUp = () => {
     },
   });
 
+  const navigate = useNavigate();
   const [popup, setPopup] = useState(false);
 
   const handleComplete = (data) => {
     setValue("addr1", data.zonecode);
     setValue("addr2", data.address);
+    setPopup(false);
   };
 
   const handleCloseClick = () => {
@@ -69,6 +73,9 @@ const SignUp = () => {
         }
       );
       console.log(response.data);
+      if (response.data == "SUCCESS") {
+        navigate("/");
+      }
     } catch (error) {
       console.error(error);
     }
@@ -78,12 +85,15 @@ const SignUp = () => {
     <div>
       <Header />
       <SignUpContainer>
-        <h2>회원가입</h2>
+        <div>
+          <h2>회원가입</h2>
+        </div>
         <SignUpForm onSubmit={handleSubmit(onSubmit)}>
           <div>
             <div>
               <InputLabel>이름</InputLabel>
               <Input
+                placeholder="이름"
                 {...register("userName", {
                   required: "이름을 입력해주세요.",
                 })}
@@ -95,6 +105,7 @@ const SignUp = () => {
             <div>
               <InputLabel htmlFor="userId">아이디</InputLabel>
               <Input
+                placeholder="2~10자 영문/숫자"
                 {...register("userId", {
                   required: "아이디를 입력하세요.",
                   pattern: {
@@ -123,6 +134,8 @@ const SignUp = () => {
             <div>
               <InputLabel htmlFor="password">비밀번호</InputLabel>
               <Input
+                type="password"
+                placeholder="8~15자 영문/숫자/특수문자"
                 {...register("password", {
                   required: "비밀번호를 입력하세요.",
                   pattern: {
@@ -149,6 +162,8 @@ const SignUp = () => {
             <div>
               <InputLabel htmlFor="confirmPassword">비밀번호 확인</InputLabel>
               <Input
+                type="password"
+                placeholder="비밀번호 확인"
                 {...register("confirmPassword", {
                   required: "비밀번호를 입력하세요",
                   validate: {
@@ -176,6 +191,7 @@ const SignUp = () => {
             <div>
               <InputLabel htmlFor="phoneNumber">휴대폰 번호</InputLabel>
               <Input
+                placeholder="하이픈(-) 없이 입력"
                 {...register("phoneNumber", {
                   required: true,
                 })}
@@ -184,18 +200,22 @@ const SignUp = () => {
           </div>
           <AddressBox>
             <InputLabel htmlFor="address">주소</InputLabel>
-            <div className="address-container" onClick={() => setPopup(true)}>
+            <div className="address-container">
               <Input
+                onClick={() => setPopup(true)}
+                placeholder="우편번호"
                 {...register("addr1", {
                   required: true,
                 })}
               />
               <Input
+                placeholder="주소"
                 {...register("addr2", {
                   required: true,
                 })}
               />
               <Input
+                placeholder="상세주소"
                 {...register("addr3", {
                   required: true,
                 })}
@@ -227,8 +247,9 @@ const SignUp = () => {
             <div>
               <InputLabel>생년월일</InputLabel>
               <Input
+                placeholder="생년월일"
                 {...register("birth", {
-                  required: true,
+                  required: "생년월일을 입력해주세요",
                 })}
               />
             </div>
@@ -246,7 +267,7 @@ const SignUp = () => {
               </RadioBox>
             </div>
           </div>
-          <Button title={"가입완료"} type="submit" />
+          <Button title={"가입완료"} type="submit" onClick={() => reset()} />
         </SignUpForm>
       </SignUpContainer>
       <Footer />
@@ -257,10 +278,14 @@ const SignUp = () => {
 const SignUpContainer = styled.div`
   text-align: center;
   padding: 10rem;
+  background-image: url(/images/flower-3.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 100% 100%;
   h2 {
     font-size: 2rem;
     font-weight: bold;
-    margin-bottom: 5rem;
+    margin-top: 3rem;
   }
 `;
 
@@ -268,6 +293,7 @@ const SignUpForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   > div {
     display: flex;
     justfy-content: space-around;
@@ -286,7 +312,7 @@ const SignUpForm = styled.form`
   }
   > div:last-of-type {
     border: none;
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
   }
 `;
 const AddressBox = styled.div`
@@ -331,13 +357,20 @@ const PopupContainer = styled.div`
   width: 400px;
   height: 500px;
   z-index: 100;
+  > div {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    padding-top: 2rem;
+    background: #cecece;
+  }
 `;
 
 const CloseButton = styled.button`
   position: absolute;
-  top: -2rem;
-  right: 1rem;
-  background-color: #dc3545;
+  top: 4px;
+  right: -12px;
+  background-color: #777;
   color: white;
   border: none;
   padding: 0.2rem 0.5rem;
