@@ -5,12 +5,13 @@ import { Header } from "../components/Header";
 import { styled } from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Spinner from "components/Spinner";
 
 const LogIn = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
   const navigate = useNavigate();
 
@@ -42,6 +43,7 @@ const LogIn = () => {
   return (
     <main>
       <Header />
+      {isSubmitting && <Spinner />}
       <LogInContainer className="main-font-color">
         <LogoImageBox>
           <a href="/">
@@ -88,7 +90,9 @@ const LogIn = () => {
             </SignUpBox>
           </FormInner>
           <ButtonBox>
-            <SubmitButton type="submit">로그인</SubmitButton>
+            <SubmitButton type="submit" disabled={isSubmitting ? true : false}>
+              로그인
+            </SubmitButton>
           </ButtonBox>
         </LogInForm>
       </LogInContainer>
@@ -196,6 +200,10 @@ const SubmitButton = styled.button`
 
   &:hover {
     background-color: #6c4ab6;
+  }
+  &:disabled {
+    background: #cecece;
+    cursor: not-allowed;
   }
 `;
 

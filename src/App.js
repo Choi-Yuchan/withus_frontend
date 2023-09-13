@@ -1,23 +1,29 @@
+import { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./page/Home";
-import LogIn from "./page/LogIn";
-import ProductDetail from "./page/ProductDetail";
-import SignUp from "./page/SignUp";
-import Order from "./page/Order";
-import Cart from "./page/Cart";
-import MyPage from "page/MyPage";
+import Spinner from "components/Spinner";
+
+const Home = lazy(() => import("./page/Home"));
+const LogIn = lazy(() => import("./page/LogIn"));
+const SignUp = lazy(() => import("./page/SignUp"));
+const Order = lazy(() => import("./page/Order"));
+const Cart = lazy(() => import("./page/Cart"));
+const MyPage = lazy(() => import("./page/MyPage"));
+const ProductDetail = lazy(() => import("./page/ProductDetail"));
+
 function App() {
   return (
     <div className="App">
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route path="/product/:id" element={<ProductDetail />}></Route>
-        <Route path="/login" element={<LogIn />}></Route>
-        <Route path="/signup" element={<SignUp />}></Route>
-        <Route path="/order" element={<Order />}></Route>
-        <Route path="/cart" element={<Cart />}></Route>
-        <Route path="/mypage" element={<MyPage />}></Route>
-      </Routes>
+      <Suspense fallback={<Spinner />}>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/product/:id" element={<ProductDetail />}></Route>
+          <Route path="/login" element={<LogIn />}></Route>
+          <Route path="/signup" element={<SignUp />}></Route>
+          <Route path="/order" element={<Order />}></Route>
+          <Route path="/cart" element={<Cart />}></Route>
+          <Route path="/mypage" element={<MyPage />}></Route>
+        </Routes>
+      </Suspense>
     </div>
   );
 }
