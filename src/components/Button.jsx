@@ -8,10 +8,19 @@ const StyledButton = styled.button`
   border: none;
   border-radius: 4px;
   cursor: pointer;
+
+  &:disabled {
+    background: #cecece;
+    cursor: not-allowed;
+  }
 `;
 
-const Button = ({ title, type = "default" }) => {
-  return <StyledButton $type={type}>{title}</StyledButton>;
+const Button = ({ title, type = "default", disabled = false }) => {
+  return (
+    <StyledButton $type={type} disabled={disabled}>
+      {title}
+    </StyledButton>
+  );
 };
 
 export default Button;

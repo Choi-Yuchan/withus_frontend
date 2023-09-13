@@ -8,6 +8,7 @@ import Button from "components/Button";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 import { useNavigate } from "react-router-dom";
+import Spinner from "components/Spinner";
 
 const SignUp = () => {
   const {
@@ -16,7 +17,7 @@ const SignUp = () => {
     reset,
     getValues,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: {
       userName: "",
@@ -84,6 +85,7 @@ const SignUp = () => {
   return (
     <div>
       <Header />
+      {isSubmitting && <Spinner />}
       <SignUpContainer>
         <div>
           <h2>회원가입</h2>
@@ -267,7 +269,12 @@ const SignUp = () => {
               </RadioBox>
             </div>
           </div>
-          <Button title={"가입완료"} type="submit" onClick={() => reset()} />
+          <Button
+            title={"가입완료"}
+            type="submit"
+            onClick={() => reset()}
+            disabled={isSubmitting ? true : false}
+          />
         </SignUpForm>
       </SignUpContainer>
       <Footer />
