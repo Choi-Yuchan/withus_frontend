@@ -3,9 +3,27 @@ import { styled } from "styled-components";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import Carousel from "../components/Carousel";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const productlists = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  const [itemList, setItemList] = useState([]);
+  const fetchItemList = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/letter/letterList`
+      );
+      console.log(response.data);
+      setItemList(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    fetchItemList();
+  }, []);
+
+  const ea = 300;
 
   return (
     <div className="main-font-color">
@@ -15,18 +33,20 @@ export default function Home() {
         <ProductSection>
           <h2>인기 있는 청첩장</h2>
           <ProductList>
-            {productlists.map((product, index) => (
+            {itemList?.map((item, index) => (
               <li key={index}>
                 <a href={`/product/${index}`}>
-                  <ProductImage></ProductImage>
+                  <ProductImage>
+                    <img src={`/images/${item.imgList[0].filename}`} alt="" />
+                  </ProductImage>
                   <ProductDesc>
-                    <h4>Product{product}</h4>
+                    <h4>{item.wname}</h4>
                     <span>
                       <ProductPriceLabel>
-                        <p>100,000원</p>
+                        <p>{item.wprice * ea}원</p>
                         <p>40%</p>
                       </ProductPriceLabel>
-                      <span>300부</span>
+                      <span>{ea}부</span>
                     </span>
                   </ProductDesc>
                 </a>
@@ -42,9 +62,11 @@ export default function Home() {
 
 const ProductImage = styled.div`
   width: 100%;
-  aspect-ratio: 1/1;
-  border-radius: 12px;
-  background-color: #f7f7f7;
+
+  img {
+    width: 300px;
+    border-radius: 1rem;
+  }
 `;
 const ProductSection = styled.section`
   padding-block: 3rem;
@@ -60,7 +82,8 @@ const ProductList = styled.ul`
   display: grid;
 
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 10px;
+  column-gap: 10px;
+  row-gap: 2rem;
   justify-items: center;
   align-items: center;
 
