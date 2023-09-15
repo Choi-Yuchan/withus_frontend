@@ -44,11 +44,11 @@ export const Header = () => {
             </StyledAnchor>
           </LogoImageBox>
           <NavigationMain>
-            <StyledAnchor href="#">청첩장</StyledAnchor>
-            <StyledAnchor href="#">모바일</StyledAnchor>
-            <StyledAnchor href="#">웨딩영상</StyledAnchor>
-            <StyledAnchor href="#">감사장</StyledAnchor>
-            <StyledAnchor href="#">초대장</StyledAnchor>
+            <StyledAnchor href="/">청첩장</StyledAnchor>
+            <StyledAnchor href="/temp">모바일</StyledAnchor>
+            <StyledAnchor href="/temp">웨딩영상</StyledAnchor>
+            <StyledAnchor href="/temp">감사장</StyledAnchor>
+            <StyledAnchor href="/temp">초대장</StyledAnchor>
           </NavigationMain>
         </div>
         <TopRightNavigation>
@@ -77,7 +77,7 @@ export const Header = () => {
             </StyledAnchor>
           </li>
           <li>
-            <StyledAnchor href="#">
+            <StyledAnchor href="/temp">
               <RiCustomerService2Fill />
             </StyledAnchor>
           </li>
