@@ -35,7 +35,7 @@ export default function Home() {
           <ProductList>
             {itemList?.map((item, index) => (
               <li key={index}>
-                <a href={`/product/${index}`}>
+                <a href={`/product/${index + 1}`}>
                   <ProductImage>
                     <img src={`/images/${item.imgList[0].filename}`} alt="" />
                   </ProductImage>

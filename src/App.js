@@ -9,6 +9,7 @@ const Order = lazy(() => import("./page/Order"));
 const Cart = lazy(() => import("./page/Cart"));
 const MyPage = lazy(() => import("./page/MyPage"));
 const ProductDetail = lazy(() => import("./page/ProductDetail"));
+const Temporary = lazy(() => import("./page/Temporary"));
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/order" element={<Order />}></Route>
           <Route path="/cart" element={<Cart />}></Route>
           <Route path="/mypage" element={<MyPage />}></Route>
+          <Route path="/temp" element={<Temporary />}></Route>
         </Routes>
       </Suspense>
     </div>
