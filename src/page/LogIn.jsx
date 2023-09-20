@@ -6,6 +6,7 @@ import { styled } from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Spinner from "components/Spinner";
+import { NaverLogin } from "utils/NaverLogin";
 
 const LogIn = () => {
   const {
@@ -14,6 +15,7 @@ const LogIn = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const navigate = useNavigate();
+  // const location = useLocation();
 
   const onSubmit = async ({ userId, password }) => {
     if (userId === "" || password === "") {
@@ -40,6 +42,24 @@ const LogIn = () => {
     }
   };
 
+  const handleGoogleLogin = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const link = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.REACT_APP_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code&scope=email profile`;
+    const loginPopup = window.open(
+      link,
+      "googleLogin",
+      "width=500, height=500"
+    );
+    loginPopup.moveTo(300, 100);
+  };
+  const handleKakaoLogin = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const link = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_API_KEY}&redirect_uri=${process.env.REACT_APP_REDIRECT_URI}&response_type=code`;
+    const loginPopup = window.open(link, "kakaoLogin", "width=500, height=500");
+    loginPopup.moveTo(300, 100);
+  };
   return (
     <main>
       <Header />
@@ -62,7 +82,7 @@ const LogIn = () => {
                   required: true,
                 })}
                 type="text"
-                placeholder="Your ID"
+                placeholder="아이디를 입력해주세요"
               />
               {errors.userId && (
                 <ErrorText>올바른 아이디를 입력해주세요.</ErrorText>
@@ -77,7 +97,7 @@ const LogIn = () => {
                   required: true,
                 })}
                 type="password"
-                placeholder="Your Password"
+                placeholder="비밀번호를 입력해주세요."
               />
               {errors.password && (
                 <ErrorText>올바른 비밀번호를 입력해주세요.</ErrorText>
@@ -94,13 +114,51 @@ const LogIn = () => {
               로그인
             </SubmitButton>
           </ButtonBox>
+          <SocialLoginBtnBox>
+            <SocialLoginBtn
+              onClick={(e) => handleGoogleLogin(e)}
+              $platform="google"
+            >
+              구글 아이디로 로그인
+            </SocialLoginBtn>
+            <SocialLoginBtn
+              onClick={(e) => handleKakaoLogin(e)}
+              $platform="kakao"
+            >
+              카카오 아이디로 로그인
+            </SocialLoginBtn>
+            <NaverLogin />
+          </SocialLoginBtnBox>
         </LogInForm>
       </LogInContainer>
       <Footer />
     </main>
   );
 };
-
+export const SocialLoginBtn = styled.button`
+  background-color: ${({ $platform }) =>
+    $platform === "kakao" ? "#fee500" : "#fefefe"};
+  background-image: ${({ $platform }) =>
+    $platform === "google"
+      ? "url(/images/google-icon2.png)"
+      : "url(/images/kakao-icon.png)"};
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 45px;
+  margin-bottom: 5px;
+  border-radius: 0.5rem;
+  border: solid 1px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+`;
+const SocialLoginBtnBox = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`;
 const LogoImageBox = styled.div`
   width: 80px;
 
@@ -189,17 +247,18 @@ const ButtonBox = styled.div`
 
 const SubmitButton = styled.button`
   width: 100%;
-  background-color: #8d9eff;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
+  background-color: #e3f3ff;
+  color: #333;
+  border: solid 1px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
   padding: 12px;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.2s;
 
   &:hover {
-    background-color: #6c4ab6;
+    background-color: #8d9eff;
+    color: #fefefe;
   }
   &:disabled {
     background: #cecece;
