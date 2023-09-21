@@ -1,31 +1,27 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import styled from "styled-components";
+import Button from "./Button";
 
 const WithdrawalForm = ({ userNumber }) => {
   const { register, handleSubmit, errors } = useForm();
 
   const onSubmit = async (data) => {
     if (Object.keys(errors).length === 0) {
-      // "withdrawalReason" 입력 필드의 값을 가져옴
       const withdrawalReason = data.withdrawalReason;
   
-      // 유효성 검사를 통과한 경우에만 회원 탈퇴 API 호출
       try {
         const response = await fetch(`/user/${userNumber}/deleteUser`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            // 필요한 인증 토큰 등을 포함해야 합니다.
           },
-          body: JSON.stringify({ withdrawalReason }), // 데이터를 JSON 형태로 전송
+          body: JSON.stringify({ withdrawalReason }), 
         });
   
         if (response.status === 200) {
-          // 회원 탈퇴가 성공한 경우
           alert("회원 탈퇴가 성공적으로 처리되었습니다.");
-          // 로그아웃 또는 다른 필요한 작업 수행
         } else {
-          // 회원 탈퇴가 실패한 경우
           alert("회원 탈퇴 중 오류가 발생했습니다.");
         }
       } catch (error) {
@@ -36,19 +32,50 @@ const WithdrawalForm = ({ userNumber }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <label>회원 탈퇴 이유:</label>
-      <input
-        type="text"
-        name="withdrawalReason"
-        ref={register} // 이 필드를 등록합니다.
-      />
-      {errors.withdrawalReason && (
-        <p style={{ color: "red" }}>이유를 입력하세요.</p>
-      )}
-      <button type="submit">회원 탈퇴</button>
-    </form>
+    <FormContainer>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Label>회원 탈퇴 이유:</Label>
+        <Input
+          type="text"
+          name="withdrawalReason"
+          ref={register}
+        />
+        {errors.withdrawalReason && (
+          <ErrorText>회원탈퇴 사유를 알려주세요.</ErrorText>
+        )}
+        <Button type="submit" title={"회원탈퇴"}></Button>
+      </form>
+    </FormContainer>
   );
 };
+
+
+const FormContainer = styled.div`
+  text-align: center;
+  margin: 20px auto;
+  max-width: 300px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+`;
+
+const Label = styled.label`
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+`;
+
+const ErrorText = styled.p`
+  color: red;
+`;
+
 
 export default WithdrawalForm;

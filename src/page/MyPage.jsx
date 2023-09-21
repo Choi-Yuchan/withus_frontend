@@ -51,7 +51,7 @@ const MyPage = () => {
           )}
           {selectedMenu === "회원탈퇴" && (
             <div>
-              {<WithdrawalForm />}
+              {<WithdrawalForm userNumber={1}/>}
             </div>
           )
 
