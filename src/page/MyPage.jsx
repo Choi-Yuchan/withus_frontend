@@ -2,6 +2,7 @@ import { Footer } from "components/Footer";
 import { Header } from "components/Header";
 import { MyInfo } from "components/MyInfo";
 import OrderInquiry from "components/OrderInQuiry";
+import WithdrawalForm from "components/WithdrawalForm";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -30,6 +31,12 @@ const MyPage = () => {
           >
             내정보 수정
           </MenuItem>
+          <MenuItem
+            selected={selectedMenu === "회원탈퇴"}
+            onClick={() => handleMenuClick("회원탈퇴")}
+            >
+            회원탈퇴
+          </MenuItem>
         </MenuList>
         <Content>
           {selectedMenu === "주문조회" && (
@@ -42,6 +49,13 @@ const MyPage = () => {
               {<MyInfo />}
             </div>
           )}
+          {selectedMenu === "회원탈퇴" && (
+            <div>
+              {<WithdrawalForm />}
+            </div>
+          )
+
+          }
         </Content>
       </MyPageContainer>
       <Footer />
