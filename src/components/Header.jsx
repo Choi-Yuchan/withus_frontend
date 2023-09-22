@@ -7,6 +7,19 @@ export const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [role, setRole] = useState(localStorage.getItem("role"));
 
+  const handleMyPageClick = () => {
+    if (role === "ROLE_USER") {
+      window.location.href = "/mypage";
+    } else {
+      const shouldRedirectToLogin = window.confirm(
+        "로그인이 필요한 서비스입니다. 로그인 하시겠습니까?"
+      );
+      if (shouldRedirectToLogin) {
+        window.location.href = "/login";
+      }
+    }
+  };
+
   // localStorage에서 role 값을 가져오고, 변경될 때마다 업데이트
   useEffect(() => {
     const handleStorageChange = (e) => {
@@ -72,7 +85,7 @@ export const Header = () => {
             </StyledAnchor>
           </li>
           <li>
-            <StyledAnchor href="/mypage">
+            <StyledAnchor onClick={handleMyPageClick}>
               <FaUser />
             </StyledAnchor>
           </li>
