@@ -68,7 +68,7 @@ export const MyInfo = () => {
 
   const { handleSubmit } = useForm();
 
-  const onSubmit = async (userNumber = 2) => {
+  const onSubmit = async (userNumber = 22) => {
     try {
       // 회원탈퇴 API 호출
       const response = await axios.delete(`${process.env.REACT_APP_API_URL}/user/${userNumber}/deleteUser`);
