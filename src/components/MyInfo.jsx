@@ -67,8 +67,11 @@ export const MyInfo = () => {
   };
 
   const { handleSubmit } = useForm();
+  
 
-  const onSubmit = async (userNumber = 22) => {
+  const userNumber = localStorage.getItem("userNumber");
+  const onSubmit = async () => {
+    
     try {
       // 회원탈퇴 API 호출
       const response = await axios.delete(`${process.env.REACT_APP_API_URL}/user/${userNumber}/deleteUser`);
@@ -84,6 +87,7 @@ export const MyInfo = () => {
       alert("회원탈퇴 중 오류가 발생했습니다.");
     }
   };
+  
 
   return (
     <MyPageContainer>
