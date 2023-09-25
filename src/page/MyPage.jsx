@@ -5,12 +5,15 @@ import OrderInquiry from "components/OrderInQuiry";
 import React, { useState } from "react";
 import styled from "styled-components";
 
+
+
 const MyPage = () => {
   const [selectedMenu, setSelectedMenu] = useState("주문조회");
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
   };
+
 
   return (
     <div>
