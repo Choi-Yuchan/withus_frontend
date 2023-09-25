@@ -7,6 +7,14 @@ export const Header = () => {
   const [scrollY, setScrollY] = useState(0);
   const [role, setRole] = useState(localStorage.getItem("role"));
 
+
+  const handleLogout = () => {
+    localStorage.removeItem("role");
+    setRole(null);
+    alert("로그아웃 되었습니다!");
+  };
+
+
   // localStorage에서 role 값을 가져오고, 변경될 때마다 업데이트
   useEffect(() => {
     const handleStorageChange = (e) => {
@@ -54,7 +62,7 @@ export const Header = () => {
         <TopRightNavigation>
           {role == "ROLE_USER" ? (
             <li>
-              <StyledAnchor href="/logout">로그아웃</StyledAnchor>
+              <StyledAnchor href="/" onClick={handleLogout}>로그아웃</StyledAnchor>
             </li>
           ) : (
             <>
