@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export const MyInfo = () => {
-  // 사용자 정보 상태 관리
   const [userInfo, setUserInfo] = useState({
     name: "Your Name",
     id: "Your Id",
@@ -11,10 +12,8 @@ export const MyInfo = () => {
     address: "Address",
   });
 
-  // 수정 모드 상태 관리
   const [isEditMode, setIsEditMode] = useState(false);
 
-  // 입력 필드 값 변경 핸들러
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUserInfo({
@@ -23,14 +22,12 @@ export const MyInfo = () => {
     });
   };
 
-  // 저장 버튼 클릭 핸들러
   const handleSaveClick = () => {
-    setIsEditMode(false); // 수정 모드 종료
-    setPopup(false); // 팝업 닫기
+    setIsEditMode(false);
+    setPopup(false);
   };
 
   const [popup, setPopup] = useState(false);
-  // 닫기 버튼 클릭 핸들러
   const handleCloseClick = () => {
     setPopup(false);
   };
@@ -39,30 +36,59 @@ export const MyInfo = () => {
     let fullAddress = data.address;
     let extraAddress = "";
 
-    if(data.addressType === "R") {
+    if (data.addressType === "R") {
       if (data.bname !== "") {
         extraAddress += data.bname;
       }
-      if(data.buildingName !== "") {
+      if (data.buildingName !== "") {
         extraAddress +=
-        extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
       }
       fullAddress += extraAddress !== "" ? `(${extraAddress})` : "";
     }
     const updatedUserInfo = {
       ...userInfo,
       address: fullAddress,
-    }
+    };
 
     setUserInfo(updatedUserInfo);
-    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    console.log(data.zonecode); // 우편번호
+    console.log(fullAddress);
+    console.log(data.zonecode);
     setUserInfo({
       ...userInfo,
       address: fullAddress,
     });
     setPopup(false);
-  }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    window.location.href = "/login";
+  };
+
+  const { handleSubmit } = useForm();
+  
+
+  const userNumber = localStorage.getItem("userNumber");
+  const onSubmit = async () => {
+    
+    try {
+      // 회원탈퇴 API 호출
+      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/user/${userNumber}/deleteUser`);
+
+      if (response.status === 200) {
+        alert("회원탈퇴가 완료되었습니다.");
+        handleLogout();
+      } else {
+        alert("회원탈퇴 중 오류가 발생했습니다.");
+      }
+    } catch (error) {
+      console.error("회원탈퇴 오류:", error);
+      alert("회원탈퇴 중 오류가 발생했습니다.");
+    }
+  };
+  
+
   return (
     <MyPageContainer>
       <h2>My Info</h2>
@@ -141,6 +167,13 @@ export const MyInfo = () => {
           <EditButton onClick={() => setIsEditMode(true)}>수정</EditButton>
         )}
       </div>
+      <div>
+        <div>
+          <WithdrawalForm onSubmit={handleSubmit(onSubmit)}>
+            <WithdrawakButton type="submit">회원탈퇴</WithdrawakButton>
+          </WithdrawalForm>
+        </div>
+      </div>
     </MyPageContainer>
   );
 };
@@ -156,6 +189,10 @@ const MyPageContainer = styled.div`
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 5rem;
+  }
+  >div:nth-of-type(3){
+    width:30rem;
+    text-align:right;
   }
 `;
 
@@ -177,7 +214,7 @@ const UserInfo = styled.div`
 const UserInfoItem = styled.div`
   display: flex;
   justify-content: space-between;
-  box-sizing:border-box;
+  box-sizing: border-box;
   span {
     padding: 0.2rem;
   }
@@ -186,13 +223,13 @@ const UserInfoItem = styled.div`
     margin-right: 1rem;
   }
   input {
-    text-align:right;
+    text-align: right;
   }
 `;
 
 const EditButton = styled.button`
   margin-top: 1rem;
-  background-color: #B9E0FF;
+  background-color: #b9e0ff;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -202,7 +239,7 @@ const EditButton = styled.button`
 
 const SaveButton = styled.button`
   margin-top: 1rem;
-  background-color: #8D72E1;
+  background-color: #8d72e1;
   color: white;
   border: none;
   padding: 0.5rem 1rem;
@@ -230,4 +267,17 @@ const CloseButton = styled.button`
   cursor: pointer;
   border-radius: 0.5rem;
   z-index: 1000;
+`;
+
+const WithdrawalForm = styled.form`
+  margin: 4rem auto;
+`;
+
+const WithdrawakButton = styled.button`
+  margin: 4rem auto;
+  color: rgba(200, 200, 200, 0.5);
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
 `;

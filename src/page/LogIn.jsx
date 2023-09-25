@@ -35,7 +35,8 @@ const LogIn = () => {
       const { message, data } = response.data;
       if (message == "SUCCESS") {
         navigate("/");
-        localStorage.setItem("role", data[0]?.authority);
+        localStorage.setItem("role", data?.authority);
+        localStorage.setItem("userNumber", data?.userNumber);
       }
     } catch (error) {
       console.error(error);

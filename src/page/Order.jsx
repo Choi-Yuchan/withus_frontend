@@ -3,8 +3,12 @@ import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { styled } from "styled-components";
 import Button from "components/Button";
+import { Navigate } from "react-router-dom";
 
 const Order = () => {
+  const userNumber = localStorage.getItem("userNumber");
+
+  if (!userNumber) return <Navigate to={"/login"} replace />;
   return (
     <div>
       <Header />
