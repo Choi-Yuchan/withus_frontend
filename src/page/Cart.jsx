@@ -7,14 +7,11 @@ import Button from "components/Button";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
 
-
 const Cart = () => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [cartData, setCartData] = useState([]);
-  console.log({ cartData });
 
   const userNumber = localStorage.getItem("userNumber");
-
 
   const handleCheckboxChange = (itemId) => {
     if (selectedItems.includes(itemId)) {
@@ -39,6 +36,7 @@ const Cart = () => {
     fetchData(cartData);
   }, [cartData]);
 
+  if (!userNumber) return <Navigate to={"/login"} replace />;
   return (
     <div>
       <Header />
