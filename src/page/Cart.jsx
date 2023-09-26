@@ -4,7 +4,9 @@ import { Footer } from "../components/Footer";
 import { styled } from "styled-components";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import Button from "components/Button";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
+
 
 const Cart = () => {
   const [selectedItems, setSelectedItems] = useState([]);

@@ -5,6 +5,7 @@ import { Footer } from "../components/Footer";
 import Carousel from "../components/Carousel";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [itemList, setItemList] = useState([]);
@@ -13,7 +14,6 @@ export default function Home() {
       const response = await axios.get(
         `${process.env.REACT_APP_API_URL}/letter/letterList`
       );
-      console.log(response.data);
       setItemList(response.data);
     } catch (error) {
       console.error(error);
@@ -22,8 +22,6 @@ export default function Home() {
   useEffect(() => {
     fetchItemList();
   }, []);
-
-  const ea = 300;
 
   return (
     <div className="main-font-color">
@@ -35,7 +33,7 @@ export default function Home() {
           <ProductList>
             {itemList?.map((item, index) => (
               <li key={index}>
-                <a href={`/product/${index + 1}`}>
+                <Link to={`/product/${index + 1}`}>
                   <ProductImage>
                     <img src={`/images/${item.imgList[0].filename}`} alt="" />
                   </ProductImage>
@@ -43,13 +41,15 @@ export default function Home() {
                     <h4>{item.wname}</h4>
                     <span>
                       <ProductPriceLabel>
-                        <p>{item.wprice * ea}원</p>
+                        <p>
+                          {parseInt(item.wprice * 300, 10).toLocaleString()}원
+                        </p>
                         <p>40%</p>
                       </ProductPriceLabel>
-                      <span>{ea}부</span>
+                      <span>300부</span>
                     </span>
                   </ProductDesc>
-                </a>
+                </Link>
               </li>
             ))}
           </ProductList>
@@ -62,6 +62,8 @@ export default function Home() {
 
 const ProductImage = styled.div`
   width: 100%;
+  display: flex;
+  justify-content: center;
 
   img {
     width: 300px;
@@ -75,6 +77,7 @@ const ProductSection = styled.section`
   h2 {
     font-weight: 600;
     font-size: 2rem;
+    padding-left: 5rem;
     margin-bottom: 1rem;
   }
 `;
@@ -89,13 +92,16 @@ const ProductList = styled.ul`
 
   li {
     width: 100%;
+    border-bottom: 1px solid #e5cf87;
   }
 `;
 
 const ProductDesc = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   padding: 0.5rem;
+  margin-bottom: 0.5rem;
 
   span {
     display: inline-flex;
