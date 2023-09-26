@@ -1,16 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
 export const MyInfo = () => {
-  const [userInfo, setUserInfo] = useState({
-    name: "Your Name",
-    id: "Your Id",
-    phoneNumber: "123-456-7890",
-    address: "Address",
-  });
+  const userNumber = localStorage.getItem("userNumber");
+  console.log({userNumber});
+
+  const fetchUserData = async (userNumber) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_URL}/user/userInfo/${userNumber}`
+      );
+      console.log(response);
+
+      if (response.status === 200) {
+        const userData = response.data;
+        setUserInfo(userData);
+      } else {
+        alert("사용자 데이터를 가져오는 데 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("사용자 데이터 가져오기 오류:", error);
+      alert("사용자 데이터를 가져오는 중 오류가 발생했습니다.");
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData(userNumber);
+  }, [userNumber]);
+
+  const [userInfo, setUserInfo] = useState({});
 
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -67,14 +88,13 @@ export const MyInfo = () => {
   };
 
   const { handleSubmit } = useForm();
-  
 
-  const userNumber = localStorage.getItem("userNumber");
   const onSubmit = async () => {
-    
     try {
       // 회원탈퇴 API 호출
-      const response = await axios.delete(`${process.env.REACT_APP_API_URL}/user/${userNumber}/deleteUser`);
+      const response = await axios.delete(
+        `${process.env.REACT_APP_API_URL}/user/${userNumber}/deleteUser`
+      );
 
       if (response.status === 200) {
         alert("회원탈퇴가 완료되었습니다.");
@@ -87,7 +107,6 @@ export const MyInfo = () => {
       alert("회원탈퇴 중 오류가 발생했습니다.");
     }
   };
-  
 
   return (
     <MyPageContainer>
@@ -99,16 +118,17 @@ export const MyInfo = () => {
             <input
               type="text"
               name="name"
-              value={userInfo.name}
+              value={userInfo.userName}
               onChange={handleInputChange}
+              required
             />
           ) : (
-            <span>{userInfo.name}</span>
+            <span>{userInfo.userName}</span>
           )}
         </UserInfoItem>
         <UserInfoItem>
           <label>아이디:</label>
-          <span>{userInfo.id}</span>
+          <span>{userInfo.userId}</span>
         </UserInfoItem>
         <UserInfoItem>
           <label>전화번호:</label>
@@ -118,6 +138,7 @@ export const MyInfo = () => {
               name="phoneNumber"
               value={userInfo.phoneNumber}
               onChange={handleInputChange}
+              required
             />
           ) : (
             <span>{userInfo.phoneNumber}</span>
@@ -126,17 +147,31 @@ export const MyInfo = () => {
         <UserInfoItem>
           <label>주소</label>
           {isEditMode ? (
-            <input
-              type="text"
-              name="address"
-              value={userInfo.address}
-              readOnly
-              onClick={() => setPopup(true)}
-              onChange={handleInputChange}
-              required
-            />
+            <AddressBox>
+              <input
+                type="text"
+                name="address"
+                value={userInfo.addr1}
+                readOnly
+                onClick={() => setPopup(true)}
+                onChange={handleInputChange}
+                required
+              />
+              <input
+                type="text"
+                name="address"
+                value={userInfo.addr2}
+                readOnly
+                required
+              />
+              <input type="text" name="address" value={userInfo.addr3} />
+            </AddressBox>
           ) : (
-            <span>{userInfo.address}</span>
+            <AddressBox>
+            <span>{userInfo.addr1}</span>
+            <span>{userInfo.addr2}</span>
+            <span>{userInfo.addr3}</span>
+            </AddressBox>
           )}
           <PopupContainer>
             {popup && (
@@ -190,9 +225,9 @@ const MyPageContainer = styled.div`
     font-weight: bold;
     margin-bottom: 5rem;
   }
-  >div:nth-of-type(3){
-    width:30rem;
-    text-align:right;
+  > div:nth-of-type(3) {
+    width: 30rem;
+    text-align: right;
   }
 `;
 
@@ -281,3 +316,12 @@ const WithdrawakButton = styled.button`
   border: none;
   cursor: pointer;
 `;
+
+const AddressBox = styled.div`
+  display:flex;
+  flex-direction: column;
+  text-align: right;
+  >input{
+    margin: 0.3rem 0;
+  }
+`
