@@ -6,14 +6,18 @@ import React, { useState } from "react";
 import { Navigate } from "react-router-dom";
 import styled from "styled-components";
 
+
+
 const MyPage = () => {
   const [selectedMenu, setSelectedMenu] = useState("주문조회");
 
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
   };
+
   const userNumber = localStorage.getItem("userNumber");
   if (!userNumber) return <Navigate to={"/login"} replace />;
+
   return (
     <div>
       <Header />
