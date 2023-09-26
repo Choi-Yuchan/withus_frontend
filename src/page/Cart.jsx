@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Header } from "../components/Header";
 import { Footer } from "../components/Footer";
 import { styled } from "styled-components";
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import Button from "components/Button";
+import axios from "axios";
 
 const Cart = () => {
   const [selectedItems, setSelectedItems] = useState([]);
+  const [cartData, setCartData] = useState([]);
+  console.log({ cartData });
 
+  const userNumber = localStorage.getItem("userNumber");
 
   const handleCheckboxChange = (itemId) => {
     if (selectedItems.includes(itemId)) {
@@ -17,53 +21,21 @@ const Cart = () => {
     }
   };
 
-  const data = [
-    {
-      id: 1,
-      image: "/image-01.png",
-      productName: "product",
-      individualPrice: 2000,
-      size: "10x20",
-      quantity: 300,
-      totalPrice: 600000,
-    },
-    {
-      id: 2,
-      image: "/image-01.png",
-      productName: "product",
-      individualPrice: 2000,
-      size: "10x20",
-      quantity: 300,
-      totalPrice: 600000,
-    },
-    {
-      id: 3,
-      image: "/image-01.png",
-      productName: "product",
-      individualPrice: 2000,
-      size: "10x20",
-      quantity: 300,
-      totalPrice: 600000,
-    },
-    {
-      id: 4,
-      image: "/image-01.png",
-      productName: "product",
-      individualPrice: 2000,
-      size: "10x20",
-      quantity: 300,
-      totalPrice: 600000,
-    },
-    {
-      id: 5,
-      image: "/image-01.png",
-      productName: "product",
-      individualPrice: 2000,
-      size: "10x20",
-      quantity: 300,
-      totalPrice: 600000,
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/cart/cartList/${userNumber}`
+        );
+
+        setCartData(response.data);
+      } catch (error) {
+        console.error("데이터 가져오기 오류", error);
+      }
+    };
+    fetchData(cartData);
+  }, [cartData]);
+
   return (
     <div>
       <Header />
@@ -84,7 +56,7 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((item) => (
+              {cartData.map((item) => (
                 <TableRow key={item.id}>
                   <CheckboxTd>
                     <input
@@ -96,11 +68,11 @@ const Cart = () => {
                   <Td>
                     <ProductImage />
                   </Td>
-                  <Td>{item.productName}</Td>
-                  <Td>{item.individualPrice}</Td>
-                  <Td>{item.size}</Td>
-                  <Td>{item.quantity}</Td>
-                  <Td>{item.individualPrice * item.quantity}</Td>
+                  <Td>{item.wname}</Td>
+                  <Td>{item.wprice}</Td>
+                  <Td>{item.wid}</Td>
+                  <Td>{item.wcount}</Td>
+                  <Td>{item.total_price}</Td>
                 </TableRow>
               ))}
             </tbody>
@@ -181,6 +153,7 @@ const ProductImage = styled.div`
   aspect-ratio: 1/1;
   border-radius: 12px;
   background-color: #f7f7f7;
+  margin: 0 auto;
 `;
 
 const Pagination = styled.div`
