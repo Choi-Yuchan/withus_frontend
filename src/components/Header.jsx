@@ -92,6 +92,7 @@ export const Header = () => {
                 <FaUser />
               </StyledAnchor>
             ) : (
+              // 로그인되어 있지 않은 경우 로그인 페이지로 이동
               <StyledAnchor href="/login">
                 <FaUser />
               </StyledAnchor>

@@ -13,6 +13,7 @@ const Cart = () => {
 
   const userNumber = localStorage.getItem("userNumber");
 
+
   const handleCheckboxChange = (itemId) => {
     if (selectedItems.includes(itemId)) {
       setSelectedItems(selectedItems.filter((id) => id !== itemId));
