@@ -76,13 +76,18 @@ export const Header = () => {
             </>
           )}
           <li>
-            <StyledAnchor href="/cart">
-              <FaShoppingCart />
-            </StyledAnchor>
+            {role === "ROLE_USER" ? (
+              <StyledAnchor href="/cart">
+                <FaShoppingCart />
+              </StyledAnchor>
+            ) : (
+              <StyledAnchor href="/login">
+                <FaShoppingCart />
+              </StyledAnchor>
+            )}
           </li>
           <li>
             {role === "ROLE_USER" ? (
-              // 로그인되어 있는 경우 마이페이지로 이동
               <StyledAnchor href="/mypage">
                 <FaUser />
               </StyledAnchor>
