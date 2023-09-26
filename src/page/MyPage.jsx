@@ -3,6 +3,7 @@ import { Header } from "components/Header";
 import { MyInfo } from "components/MyInfo";
 import OrderInquiry from "components/OrderInQuiry";
 import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
 import styled from "styled-components";
 
 const MyPage = () => {
@@ -11,7 +12,8 @@ const MyPage = () => {
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
   };
-
+  const userNumber = localStorage.getItem("userNumber");
+  if (!userNumber) return <Navigate to={"/login"} replace />;
   return (
     <div>
       <Header />
@@ -32,16 +34,8 @@ const MyPage = () => {
           </MenuItem>
         </MenuList>
         <Content>
-          {selectedMenu === "주문조회" && (
-            <div>
-              {<OrderInquiry />}
-            </div>
-          )}
-          {selectedMenu === "내정보 수정" && (
-            <div>
-              {<MyInfo />}
-            </div>
-          )}
+          {selectedMenu === "주문조회" && <div>{<OrderInquiry />}</div>}
+          {selectedMenu === "내정보 수정" && <div>{<MyInfo />}</div>}
         </Content>
       </MyPageContainer>
       <Footer />
@@ -49,14 +43,13 @@ const MyPage = () => {
   );
 };
 
-
 const MyPageContainer = styled.div`
   text-align: center;
   padding: 10rem 5rem 0;
-  >h2{
-    font-size:2rem;
-    font-weight:bold;
-    margin-bottom:3rem;
+  > h2 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 3rem;
   }
 `;
 

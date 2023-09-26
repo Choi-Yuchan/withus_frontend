@@ -5,7 +5,7 @@ import { Footer } from "../components/Footer";
 import Button from "../components/Button";
 import ToTopBtn from "../components/ToTopBtn";
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function ProductDetail() {
@@ -53,6 +53,8 @@ export default function ProductDetail() {
       });
     }
   };
+  const userNumber = localStorage.getItem("userNumber");
+  if (!userNumber) return <Navigate to={"/login"} replace />;
   return (
     <div className="main-font-color">
       <Header />
