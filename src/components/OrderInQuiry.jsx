@@ -1,68 +1,45 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Navigate } from "react-router-dom";
 
 const OrderInquiry = () => {
   const [orders, setOrders] = useState([]);
   const [expandedOrder, setExpandedOrder] = useState(null);
   useEffect(() => {
-    // 주문 정보를 서버에서 가져오는 로직을 여기에 추가
-    // 실제 데이터 가져오는 부분은 API 호출 등을 사용
-    const dummyOrders = [
-      {
-        id: 1,
-        orderNumber: "ORD12345",
-        product: "Product A",
-        quantity: 2,
-        details: "상세 정보 1",
-      },
-      {
-        id: 2,
-        orderNumber: "ORD67890",
-        product: "Product B",
-        quantity: 1,
-        details: "상세 정보 2",
-      },
-      {
-        id: 3,
-        orderNumber: "ORD13579",
-        product: "Product C",
-        quantity: 1,
-        details: "상세 정보 3",
-      },
-      {
-        id: 4,
-        orderNumber: "ORD24680",
-        product: "Product D",
-        quantity: 1,
-        details: "상세 정보 4",
-      },
-      {
-        id: 5,
-        orderNumber: "ORD123890",
-        product: "Product E",
-        quantity: 1,
-        details: "상세 정보 5",
-      },
-      {
-        id: 6,
-        orderNumber: "ORD456789",
-        product: "Product F",
-        quantity: 1,
-        details: "상세 정보 6",
-      },
-      // 더 많은 주문 정보를 추가할 수 있습니다.
-    ];
 
-    setOrders(dummyOrders);
+
+    const userNumber = localStorage.getItem("userNumber");
+    console.log(userNumber);
+  
+    if (!userNumber) return <Navigate to={"/login"} replace />;
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/product/order/${userNumber}`
+        );
+
+        // 응답 데이터 확인
+        console.log("주문 정보 응답 데이터:", response.data);
+
+        // 가져온 주문 정보를 상태에 설정
+        setOrders(response.data);
+      } catch (error) {
+        console.error("주문 정보를 불러오는 도중 오류 발생:", error);
+      }
+    };
+
+    // fetchData 함수 호출
+    fetchData();
   }, []);
+    
 
   // 주문 상세 정보 토글 핸들러
   const handleOrderToggle = (orderId) => {
     if (expandedOrder === orderId) {
-      // 이미 확장된 상태인 경우 닫기
       setExpandedOrder(null);
     } else {
-      // 다른 주문을 클릭하여 확장
       setExpandedOrder(orderId);
     }
   };
@@ -73,16 +50,16 @@ const OrderInquiry = () => {
       <h2>주문 조회</h2>
       <OrderList>
         {orders.map((order) => (
-          <OrderItem key={order.id}>
-            <OrderNumber onClick={() => handleOrderToggle(order.id)}>
-              주문번호: {order.orderNumber}
+          <OrderItem key={order.wid}>
+            <OrderNumber onClick={() => handleOrderToggle(order.wid)}>
+              주문번호: {order.cnumber}
             </OrderNumber>
-            <OrderDetails expanded={expandedOrder === order.id}>
+            <OrderDetails expanded={expandedOrder === order.cnumber}>
               <OrderImg></OrderImg>
               <div>
-                <div>상품: {order.product}</div>
-                <div>수량: {order.quantity}</div>
-                <div>상세 정보: {order.details}</div>
+                <div>상품: {order.wname}</div>
+                <div>수량: {order.wcount}</div>
+                <div>상세 정보: {order.cnumber}</div>
               </div>
             </OrderDetails>
           </OrderItem>

@@ -8,6 +8,7 @@ import Button from "components/Button";
 const Cart = () => {
   const [selectedItems, setSelectedItems] = useState([]);
 
+
   const handleCheckboxChange = (itemId) => {
     if (selectedItems.includes(itemId)) {
       setSelectedItems(selectedItems.filter((id) => id !== itemId));
