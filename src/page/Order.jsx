@@ -17,55 +17,44 @@ const Order = () => {
         <StyledTable>
           <h3>주문정보</h3>
           <table>
-            <div>
-              <thead>
-                <tr>
-                  <th>주문번호</th>
-                  <th>상품</th>
-                  <th>상품명</th>
-                  <th>수량</th>
-                  <th>결제가</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>
-                  <td>3</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                  <td>1</td>
-                </tr>
-              </tfoot>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <span></span>
-                  </td>
-                  <td>상품명1</td>
-                  <td>1</td>
-                  <td>10,000</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <span></span>
-                  </td>
-                  <td>상품명1</td>
-                  <td>1</td>
-                  <td>10,000</td>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>
-                    <span></span>
-                  </td>
-                  <td>상품명1</td>
-                  <td>1</td>
-                  <td>10,000</td>
-                </tr>
-              </tbody>
-            </div>
+            <thead>
+              <tr>
+                <th>주문번호</th>
+                <th>상품</th>
+                <th>상품명</th>
+                <th>수량</th>
+                <th>결제가</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>
+                  <span></span>
+                </td>
+                <td>상품명1</td>
+                <td>1</td>
+                <td>10,000원</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td>
+                  <span></span>
+                </td>
+                <td>상품명2</td>
+                <td>2</td>
+                <td>20,000원</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td>
+                  <span></span>
+                </td>
+                <td>상품명3</td>
+                <td>3</td>
+                <td>30,000원</td>
+              </tr>
+            </tbody>
           </table>
         </StyledTable>
         <StyledInner>
@@ -77,21 +66,21 @@ const Order = () => {
                 type="text"
                 minLength="2"
                 maxLength="5"
-                placeholder="Your Name"
+                placeholder="이름"
               />
-              <div>
-                <label>휴대폰 번호</label>
-                <input type="tel" placeholder="Your Phone Number" />
-              </div>
-              <div>
-                <label>주소</label>
-                <div>
-                  <input type="text" placeholder="Your Address" />
-                  <input type="text" placeholder="Your Address" />
-                  <input type="text" placeholder="Your Address" />
-                  <button>주소 검색</button>
-                </div>
-              </div>
+            </div>
+            <div>
+              <label>휴대폰 번호</label>
+              <input type="tel" placeholder="휴대폰 번호" />
+            </div>
+            <div>
+              <label>주소</label>
+              <AddressBox>
+                <input type="text" placeholder="우편번호 " />
+                <input type="text" placeholder="주소" />
+                <input type="text" placeholder="상세주소" />
+              </AddressBox>
+              <button>주소 검색</button>
             </div>
           </div>
         </StyledInner>
@@ -100,17 +89,19 @@ const Order = () => {
           <div>
             <div>
               <label>신랑명</label>
-              <input type="text" />
+              <input type="text" placeholder="신랑명" />
+            </div>
+            <div>
               <label>신부명</label>
-              <input type="text" />
+              <input type="text" placeholder="신부명" />
             </div>
             <div>
               <label>예식명</label>
-              <input type="text" />
+              <input type="text" placeholder="예식명" />
             </div>
             <div>
               <label>예식 장소</label>
-              <input type="text" />
+              <input type="text" placeholder="예식장소" />
             </div>
           </div>
         </StyledFormMarry>
@@ -123,58 +114,75 @@ const Order = () => {
 
 const StyledForm = styled.form`
   display: flex;
-  align-items: center;
   flex-direction: column;
-  justify-content: center;
-  padding: 2rem 0;
+  align-items: center;
+  padding: 7rem 2rem;
   h2 {
-    padding: 2rem;
     font-size: 2rem;
     font-weight: bold;
     margin: 2rem 0;
   }
+
   h3 {
-    width: 10rem;
-    padding: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: bold;
-    text-align: right;
-    margin-right: 2rem;
+    margin-right: 1rem;
+    padding-top: 1rem;
+    white-space: nowrap;
+  }
+  > div {
+    width: 80%;
+  }
+  > div:not(last-of-type) {
+    border-bottom: 1px solid #cecece;
   }
 `;
 
 const StyledInner = styled.div`
-  margin: 2rem;
   padding: 2rem;
   display: flex;
   flex-direction: row;
-  div {
-    width: 50rem;
+
+  > div {
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
-  div > div {
+
+  > div > div {
     display: flex;
     flex-direction: row;
-    flex-wrap: wrap;
-    flex: 0.5;
   }
-  div > div > label {
-    text-align: right;
-    width: 3rem;
-    padding: 1rem;
-  }
-  div > div:nth-of-type(3) > button {
-  }
-  div > div > input {
+
+  input {
     padding: 0.5rem;
     margin: 0.5rem 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
-  div > div > button {
+
+  label {
+    margin-top: 1rem;
+    width: 150px;
+    text-align: center;
+  }
+
+  button {
     margin: 0.5rem 1rem;
-    align-items: flex-start;
+    padding: 0.5rem 1rem;
+    background-color: #8d9eff;
+    height: 30px;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
   }
+`;
+
+const AddressBox = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledTable = styled.div`
@@ -183,19 +191,28 @@ const StyledTable = styled.div`
   align-items: flex-start;
   padding: 2rem;
   margin: 2rem;
+
   table {
-    width: 50rem;
-  }
-  table > div {
     width: 100%;
-    margin: 0 auto;
+    border-collapse: collapse;
+    white-space: nowrap;
   }
-  table > div th,
-  table > div td {
+
+  th,
+  td {
     padding: 1rem 2rem;
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid #ccc;
     text-align: center;
     vertical-align: middle;
+  }
+
+  th {
+    background-color: #8d9eff;
+    color: #fff;
+  }
+
+  td {
+    background-color: #fefefe;
   }
 
   span {
@@ -211,27 +228,28 @@ const StyledFormMarry = styled.div`
   margin: 2rem;
   display: flex;
   flex-direction: row;
+
   div {
-    width: 50rem;
+    width: 100%;
     display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  }
-  div > label {
-    text-align: right;
-    width:3rem;
-    padding: 1rem;
-  }
-  div > input {
-  padding: 0.5rem;
-  margin: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
   }
   div > div {
-  display: flex;
-  flex-direction: row;
-  div > button {
-  margin: 0.5rem 1rem;
-  align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  label {
+    width: 150px;
+    text-align: center;
+  }
+  input {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
   }
 `;
 
