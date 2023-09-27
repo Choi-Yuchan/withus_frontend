@@ -53,6 +53,18 @@ export default function ProductDetail() {
       });
     }
   };
+
+  const addCartList = async (wid, wcount) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/cart/cartList?wid=${wid}&userNumber=${userNumber}&wcount=${wcount}`
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const userNumber = localStorage.getItem("userNumber");
   if (!userNumber) return <Navigate to={"/login"} replace />;
   return (
@@ -109,9 +121,11 @@ export default function ProductDetail() {
             </div>
             <ButtonBox>
               <Button title={"구매하기"} />
-              <a href="/cart">
-                <Button title={"장바구니"} type={"cart"} />
-              </a>
+              <Button
+                title={"장바구니"}
+                type={"cart"}
+                onClick={() => addCartList(id, optValue)}
+              />
             </ButtonBox>
             <div className="sub-font-color">상품코드:A492H2E</div>
           </ProductInfo>

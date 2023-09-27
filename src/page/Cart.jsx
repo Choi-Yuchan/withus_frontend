@@ -34,7 +34,24 @@ const Cart = () => {
       }
     };
     fetchData(cartData);
-  }, [cartData]);
+  }, []);
+
+  const cartImageArray = [
+    {
+      src: "/images/wedding01.jpg",
+    },
+    {
+      src: "/images/spring01.jpg",
+    },
+    {
+      src: "/images/summer01.jpg",
+    },
+  ];
+
+  const newCartData = cartData?.map((obj, index) => {
+    const imageArray = cartImageArray[index];
+    return Object.assign({}, obj, imageArray);
+  });
 
   if (!userNumber) return <Navigate to={"/login"} replace />;
   return (
@@ -57,7 +74,7 @@ const Cart = () => {
               </tr>
             </thead>
             <tbody>
-              {cartData.map((item) => (
+              {newCartData?.map((item) => (
                 <TableRow key={item.id}>
                   <CheckboxTd>
                     <input
@@ -67,7 +84,9 @@ const Cart = () => {
                     />
                   </CheckboxTd>
                   <Td>
-                    <ProductImage />
+                    <ProductImage>
+                      <img src={item.src} alt={item.wname} />
+                    </ProductImage>
                   </Td>
                   <Td>{item.wname}</Td>
                   <Td>{item.wprice}</Td>
@@ -155,6 +174,10 @@ const ProductImage = styled.div`
   border-radius: 12px;
   background-color: #f7f7f7;
   margin: 0 auto;
+
+  img {
+    width: 100%;
+  }
 `;
 
 const Pagination = styled.div`
