@@ -15,9 +15,9 @@ const StyledButton = styled.button`
   }
 `;
 
-const Button = ({ title, type = "default", disabled = false }) => {
+const Button = ({ title, type = "default", disabled = false, onClick }) => {
   return (
-    <StyledButton $type={type} disabled={disabled}>
+    <StyledButton $type={type} disabled={disabled} onClick={onClick}>
       {title}
     </StyledButton>
   );
