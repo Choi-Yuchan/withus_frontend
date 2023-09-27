@@ -5,7 +5,7 @@ import { Footer } from "../components/Footer";
 import Button from "../components/Button";
 import ToTopBtn from "../components/ToTopBtn";
 import React, { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function ProductDetail() {
@@ -53,6 +53,19 @@ export default function ProductDetail() {
       });
     }
   };
+
+  //API 수정 필요.
+  const addCartList = async (wid, wcount) => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/cart/cartList?wid=${wid}&userNumber=${userNumber}&wcount=${wcount}`
+      );
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const userNumber = localStorage.getItem("userNumber");
   if (!userNumber) return <Navigate to={"/login"} replace />;
   return (
@@ -108,10 +121,17 @@ export default function ProductDetail() {
               <SaleTag className="sub-color-01">40% 할인</SaleTag>
             </div>
             <ButtonBox>
-              <Button title={"구매하기"} />
-              <a href="/cart">
-                <Button title={"장바구니"} type={"cart"} />
-              </a>
+              <Link to={"/order"}>
+                <Button title={"구매하기"} />
+              </Link>
+
+              <Button
+                title={"장바구니"}
+                type={"cart"}
+                onClick={() => {
+                  addCartList(id, optValue);
+                }}
+              />
             </ButtonBox>
             <div className="sub-font-color">상품코드:A492H2E</div>
           </ProductInfo>
